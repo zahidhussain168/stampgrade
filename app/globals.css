@@ -26,6 +26,16 @@
   --amber: #ffb224;
   --crimson: #ff5c5c;
 
+  /* Status chip fills and hairlines. Grade colours stay strictly semantic —
+     these exist so a failure can be read as a failure without shouting. */
+  --crimson-soft: rgba(255, 92, 92, 0.1);
+  --crimson-line: rgba(255, 92, 92, 0.45);
+  --amber-soft: rgba(255, 178, 36, 0.12);
+  --amber-line: rgba(255, 178, 36, 0.45);
+
+  /* One contrast step above --line, for the grade-rail track. */
+  --line-strong: #2b313b;
+
   --radius: 20px;
   --radius-sm: 12px;
 
@@ -54,6 +64,11 @@
   --color-mint: var(--mint);
   --color-amber: var(--amber);
   --color-crimson: var(--crimson);
+  --color-crimson-soft: var(--crimson-soft);
+  --color-crimson-line: var(--crimson-line);
+  --color-amber-soft: var(--amber-soft);
+  --color-amber-line: var(--amber-line);
+  --color-line-strong: var(--line-strong);
 
   --radius-card: var(--radius);
   --radius-chip: var(--radius-sm);

@@ -3,12 +3,8 @@
 import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 
-import {
-  type CheckId,
-  type ScanResult,
-  gradeColorVar,
-  topIssues,
-} from "@/lib/scan-engine";
+import { IssueChips, OfflinePill } from "./issue-chips";
+import { type CheckId, type ScanResult, gradeColorVar } from "@/lib/scan-engine";
 
 export type ScanPhase = "idle" | "scanning" | "revealed";
 
@@ -148,7 +144,6 @@ export function GradeCard({
 
   const grade = result?.grade ?? "C";
   const color = gradeColorVar(grade);
-  const issues = result ? topIssues(result, 3) : [];
   const showConsole = phase === "scanning";
 
   return (
@@ -161,8 +156,11 @@ export function GradeCard({
           : "Grade card"
       }
     >
-      {/* Domain */}
-      <p className="t-mono m-0 truncate text-text-dim">{result?.domain ?? "—"}</p>
+      {/* Domain, plus a flag when the numbers are an offline estimate. */}
+      <div className="flex items-center justify-between gap-3">
+        <p className="t-mono m-0 truncate text-text-dim">{result?.domain ?? "—"}</p>
+        {result?.note && <OfflinePill />}
+      </div>
 
       <AnimatePresence mode="wait" initial={false}>
         {showConsole ? (
@@ -243,23 +241,7 @@ export function GradeCard({
                 />
               </div>
 
-              {/* Issue chips */}
-              <ul className="mt-5 flex list-none flex-wrap gap-2 p-0">
-                {issues.length > 0 ? (
-                  issues.map((issue) => (
-                    <li
-                      key={issue.id}
-                      className="t-mono rounded-chip border border-line bg-surface-2 px-2.5 py-1 text-text-dim"
-                    >
-                      {issue.id}
-                    </li>
-                  ))
-                ) : result ? (
-                  <li className="t-mono rounded-chip border border-line bg-surface-2 px-2.5 py-1 text-text-dim">
-                    NO ISSUES FOUND
-                  </li>
-                ) : null}
-              </ul>
+              {result && <IssueChips result={result} />}
 
               <div className="flex-1" />
 

@@ -1,4 +1,5 @@
-import { type ScanResult, gradeColorVar, topIssues } from "@/lib/scan-engine";
+import { IssueChips } from "./issue-chips";
+import { type ScanResult, gradeColorVar } from "@/lib/scan-engine";
 
 /**
  * The card face with no motion and no client JavaScript — used for the
@@ -15,7 +16,6 @@ export function StaticGradeCard({
   className?: string;
 }) {
   const color = gradeColorVar(result.grade);
-  const issues = topIssues(result, 3);
 
   return (
     <article
@@ -54,16 +54,7 @@ export function StaticGradeCard({
           />
         </div>
 
-        <ul className="mt-5 flex list-none flex-wrap gap-2 p-0">
-          {issues.map((issue) => (
-            <li
-              key={issue.id}
-              className="t-mono rounded-chip border border-line bg-surface-2 px-2.5 py-1 text-text-dim"
-            >
-              {issue.id}
-            </li>
-          ))}
-        </ul>
+        <IssueChips result={result} />
 
         <p className="t-mono m-0 mt-6 text-xs leading-relaxed text-text-faint">
           <span aria-hidden="true">⌁</span> graded by StampGrade — get yours free ·
