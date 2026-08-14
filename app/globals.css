@@ -446,6 +446,66 @@ summary,
   animation-play-state: paused;
 }
 
+/* --------------------------- scroll cue ---------------------------- */
+.scroll-cue {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--line-strong);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--ember);
+  animation: scroll-cue 2.4s ease-in-out infinite;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateX(-100%);
+  }
+  60%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ------------------------- footer marquee -------------------------- */
+/* Oversized outlined type. Stroke only, 3% fill, so it reads as texture
+   rather than as a headline competing with the real ones. */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-scroll 60s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-word {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 9vw;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: rgba(244, 243, 240, 0.03);
+  -webkit-text-stroke: 1px var(--line-strong);
+  padding-inline: 0.12em;
+  white-space: nowrap;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 @keyframes ticker-scroll {
   from {
     transform: translate3d(0, 0, 0);
@@ -494,6 +554,14 @@ summary,
     flex-wrap: wrap;
   }
   .ticker-track > .ticker-copy:nth-child(2) {
+    display: none;
+  }
+  /* The footer marquee stops and shows a single static strip. */
+  .marquee-track {
+    animation: none;
+    width: 100%;
+  }
+  .marquee-track > .marquee-copy:nth-child(2) {
     display: none;
   }
   /* The grade ambience holds still rather than cross-fading. */

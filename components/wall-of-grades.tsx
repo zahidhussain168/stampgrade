@@ -86,6 +86,7 @@ export function WallOfGrades() {
               <div className="lg:col-span-8">
                 <div
                   data-clip-media=""
+                  data-cursor="view"
                   className="overflow-hidden rounded-card border border-line bg-surface"
                 >
                   {/* Static import gives Next the intrinsic size, so it can

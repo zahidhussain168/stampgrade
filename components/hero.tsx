@@ -201,7 +201,7 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
               Website URL
             </label>
 
-            <div className="scan-field flex flex-wrap items-center gap-2 rounded-card border border-line bg-surface p-2">
+            <div data-cursor="scan" className="scan-field flex flex-wrap items-center gap-2 rounded-card border border-line bg-surface p-2">
               <div className="flex min-w-0 flex-1 items-center">
                 <span aria-hidden="true" className="t-mono shrink-0 pl-2 text-text-faint">
                   https://
@@ -224,6 +224,7 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
 
               <button
                 type="submit"
+                data-magnetic=""
                 className="pressable inline-flex h-12 w-full shrink-0 items-center justify-center gap-2 rounded-chip bg-ember px-5 text-[0.9375rem] font-semibold text-canvas sm:w-auto"
               >
                 Run the scan
@@ -243,6 +244,13 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
           <p id="scan-help" className="t-mono mt-4 text-text-faint">
             15 checks · no email · ~6 seconds
           </p>
+
+          {/* Scroll cue. Decorative, and the line loops only when motion is
+              welcome — the CSS rule that stops it lives with the marquees. */}
+          <div aria-hidden="true" className="mt-14 hidden items-center gap-3 lg:flex">
+            <span className="t-mono-label text-text-faint">Scroll</span>
+            <span className="scroll-cue" />
+          </div>
         </div>
 
         {/* ---------------------------------------------- card */}

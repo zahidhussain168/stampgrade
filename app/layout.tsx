@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
+import { PointerFx } from "@/components/pointer-fx";
 import { Preloader } from "@/components/preloader";
 import { ScrollFX } from "@/components/scroll-fx";
 import { SmoothScroll } from "@/components/smooth-scroll";
@@ -123,6 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Preloader />
         <SmoothScroll />
         <ScrollFX />
+        <PointerFx />
         <div className="relative z-[1]">
           <Nav />
           <main id="main">{children}</main>
