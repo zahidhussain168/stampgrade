@@ -1,0 +1,339 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens. Nothing in a component may use a raw colour value —
+   everything routes through the variables below.
+   ------------------------------------------------------------------ */
+:root {
+  --canvas: #08090c;
+  --surface: #0e1014;
+  --surface-2: #14171d;
+
+  --line: #1f232b;
+  --line-bright: rgba(255, 255, 255, 0.08);
+
+  --text: #f4f3f0;
+  --text-dim: #9ba1ab;
+  --text-faint: #5d636e;
+
+  --ember: #ff6b52;
+  --ember-soft: rgba(255, 107, 82, 0.14);
+
+  --mint: #3ddc97;
+  --amber: #ffb224;
+  --crimson: #ff5c5c;
+
+  --radius: 20px;
+  --radius-sm: 12px;
+
+  /* Layered depth — macOS-style stacked shadows plus a bright top edge. */
+  --elev: 0 1px 0 var(--line-bright) inset, 0 2px 4px rgba(0, 0, 0, 0.4),
+    0 12px 24px rgba(0, 0, 0, 0.4), 0 32px 64px -12px rgba(0, 0, 0, 0.55);
+
+  --glass-bg: rgba(14, 16, 20, 0.6);
+
+  /* Section rhythm */
+  --gutter: 24px;
+  --maxw: 1200px;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-bright: var(--line-bright);
+  --color-text: var(--text);
+  --color-text-dim: var(--text-dim);
+  --color-text-faint: var(--text-faint);
+  --color-ember: var(--ember);
+  --color-ember-soft: var(--ember-soft);
+  --color-mint: var(--mint);
+  --color-amber: var(--amber);
+  --color-crimson: var(--crimson);
+
+  --radius-card: var(--radius);
+  --radius-chip: var(--radius-sm);
+
+  --font-display: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Keeps anchor targets clear of the sticky nav. */
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Nothing may push the page sideways. */
+  overflow-x: hidden;
+}
+
+/* Anything you can touch responds instantly rather than waiting out the
+   300ms double-tap delay. */
+button,
+a,
+input,
+summary,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+/* ---------------------------------- type --------------------------- */
+/* Tracking is size-specific: tighter as the type gets bigger. */
+.t-hero {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  margin: 0;
+}
+
+.t-section {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  margin: 0;
+}
+
+.t-card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.t-body {
+  letter-spacing: 0;
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+/* Uppercase mono labels get opened right up. */
+.t-eyebrow {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin: 0;
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+}
+
+.t-mono-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* -------------------------------- layout --------------------------- */
+.shell {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(72px, 11vw, 140px);
+}
+
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+
+/* -------------------------------- surfaces ------------------------- */
+.elevated {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--elev);
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+}
+
+/* -------------------------------- focus ---------------------------- */
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Only for users who never tab — pointer users keep a clean surface. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-bright);
+}
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+}
+
+/* ------------------------- interaction ----------------------------- */
+
+/* Feedback lands on pointer-down, not on release, so the page answers the
+   finger rather than the click. Colour and elevation only — never layout. */
+.pressable {
+  transition:
+    transform 100ms ease,
+    opacity 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease,
+    background-color 200ms ease;
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* Soft ember ring on the one field that matters. */
+.scan-field {
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+.scan-field:focus-within {
+  border-color: var(--ember);
+  box-shadow: 0 0 0 4px var(--ember-soft);
+}
+
+/* The 2px ember stamp-tick that comes down on the S. */
+.stamp-tick {
+  position: absolute;
+  top: -0.32em;
+  left: 0.06em;
+  width: 0.34em;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ember);
+}
+
+/* -------------------------- section reveal ------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-shown {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------- ticker ------------------------------- */
+/* Transform-only loop so it never triggers layout. Duplicated content makes
+   the wrap seamless; the whole strip is aria-hidden. */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 48s linear infinite;
+}
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ------------------------- user preferences ------------------------ */
+
+/* Glass is a decoration, not a dependency — fall back to a solid panel. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Step every hairline up to the bright border so edges stay visible. */
+@media (prefers-contrast: more) {
+  :root {
+    --line: rgba(255, 255, 255, 0.08);
+    --text-dim: #c3c8d0;
+    --text-faint: #9ba1ab;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  /* Nothing loops, nothing springs. Transitions collapse to a quick fade. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 200ms !important;
+  }
+  /* The marquee stops and the strip wraps onto static rows instead. */
+  .ticker-track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .ticker-track > .ticker-copy:nth-child(2) {
+    display: none;
+  }
+  /* Reveals must never leave content stranded when transitions are muted. */
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
