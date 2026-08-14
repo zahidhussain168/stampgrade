@@ -43,10 +43,11 @@
   --elev: 0 1px 0 var(--line-bright) inset, 0 2px 4px rgba(0, 0, 0, 0.4),
     0 12px 24px rgba(0, 0, 0, 0.4), 0 32px 64px -12px rgba(0, 0, 0, 0.55);
 
-  /* Was 0.6, which let roadmap rows read straight through the nav. 0.85 still
-     left "PERF_AUDIT" legible under the blur; 0.92 is the first step where
-     nothing behind the nav resolves into words, and it still reads as glass. */
-  --glass-bg: rgba(14, 16, 20, 0.92);
+  /* Bleed history: 0.6 let whole roadmap rows read through, 0.85 still showed
+     "PERF_AUDIT", and 0.92 held until the gallery titles went underneath at
+     display sizes. 0.96 is opaque enough that nothing resolves into words at
+     any type size, with just enough translucency left to read as glass. */
+  --glass-bg: rgba(14, 16, 20, 0.96);
 
   /* Cool counterpart to ember. Used only for atmosphere — never for grades,
      never for chrome. Ember lights one side of a section, aurora the other. */
