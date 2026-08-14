@@ -6,18 +6,32 @@ import { Nav } from "@/components/nav";
 
 import "./globals.css";
 
-// The woff2 files live in the repo rather than being fetched from Google at
-// build time. Same self-hosting and zero layout shift as next/font/google, but
-// the build has no network dependency — a gstatic blip can't fail a deploy.
-const schibsted = localFont({
+// Every woff2 lives in the repo rather than being fetched at build time. Same
+// self-hosting and zero layout shift as a CDN font, but the build has no
+// network dependency — a foundry blip can't fail a deploy. Licences for all
+// three families are recorded in app/fonts/LICENSE.txt.
+const clash = localFont({
   src: [
-    { path: "./fonts/SchibstedGrotesk-600.woff2", weight: "600", style: "normal" },
-    { path: "./fonts/SchibstedGrotesk-700.woff2", weight: "700", style: "normal" },
-    { path: "./fonts/SchibstedGrotesk-800.woff2", weight: "800", style: "normal" },
+    { path: "./fonts/ClashDisplay-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/ClashDisplay-700.woff2", weight: "700", style: "normal" },
   ],
-  variable: "--font-schibsted",
+  variable: "--font-clash",
   display: "swap",
   fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+  // Measured against Clash Display's metrics so the swap doesn't shift layout.
+  adjustFontFallback: false,
+});
+
+const general = localFont({
+  src: [
+    { path: "./fonts/GeneralSans-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/GeneralSans-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/GeneralSans-600.woff2", weight: "600", style: "normal" },
+  ],
+  variable: "--font-general",
+  display: "swap",
+  fallback: ["system-ui", "-apple-system", "Segoe UI", "sans-serif"],
+  adjustFontFallback: false,
 });
 
 const jetbrains = localFont({
@@ -93,14 +107,21 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${schibsted.variable} ${jetbrains.variable}`}>
+    <html
+      lang="en"
+      className={`${clash.variable} ${general.variable} ${jetbrains.variable}`}
+    >
       <body>
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <Nav />
-        <main id="main">{children}</main>
-        <Footer />
+        {/* Fixed grid + grain behind everything. Purely decorative. */}
+        <div className="atmosphere" aria-hidden="true" />
+        <div className="relative z-[1]">
+          <Nav />
+          <main id="main">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

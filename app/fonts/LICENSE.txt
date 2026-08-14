@@ -1,0 +1,31 @@
+Fonts bundled in this directory
+===============================
+
+Clash Display (Semibold 600, Bold 700)
+General Sans (Regular 400, Medium 500, Semibold 600)
+--------------------------------------------------
+Foundry:  Indian Type Foundry (ITF), via Fontshare — https://fontshare.com
+Licence:  ITF Free Font Licence (FFL) 1.0
+
+The ITF Free Font Licence permits use of these fonts, free of charge, for both
+personal and commercial projects, including embedding them in a website and
+serving them from the site's own domain. The fonts may not be sold on their
+own, and the licence text must travel with the font files — which is what this
+file is for. Full terms: https://www.fontshare.com/licenses/itf-ffl
+
+Files here are the woff2 web builds, downloaded from Fontshare and served
+self-hosted through next/font/local. No third-party request is made at runtime.
+
+
+JetBrains Mono (Regular 400, Medium 500, Bold 700)
+--------------------------------------------------
+Foundry:  JetBrains
+Licence:  SIL Open Font License 1.1
+          https://openfontlicense.org
+
+Used for all machinery text: check codes, scores, metadata and labels.
+
+
+Schibsted Grotesk
+-----------------
+Removed in favour of Clash Display. Kept out of the bundle entirely.

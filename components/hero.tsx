@@ -5,6 +5,8 @@ import { ArrowRight, Share2, Check } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { CONSOLE_ORDER, GradeCard, type ScanPhase } from "./grade-card";
+import { GlowPlate } from "./atmosphere";
+import { TileBeam, TileScore, TileStamp } from "./headline-tiles";
 import {
   DEMO_DOMAIN,
   type ScanResult,
@@ -164,20 +166,33 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
     <LazyMotion features={domAnimation} strict>
       {/* Bottom padding is deliberately shorter than the section default so
           the ticker sits close under the hero instead of drifting. */}
-      <section id="top" className="section pb-12 pt-10 sm:pb-16 sm:pt-14">
-      <div className="shell grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-16">
+      <section id="top" className="section pb-14 pt-10 sm:pt-16">
+        <GlowPlate tone="warm" placement="top-right" size={54} opacity={0.11} />
+        <GlowPlate tone="cool" placement="bottom-left" size={44} opacity={0.08} />
+      <div className="shell">
+        <p className="t-eyebrow">15 deterministic checks · no signup</p>
+
+        {/* Full-bleed so the type can actually be the size it wants to be.
+            The tiles sit inside the sentence, not beside it; screen readers
+            get the plain line and the tiles are aria-hidden decoration. */}
+        <h1 className="t-hero mt-6" data-split="hero">
+          <span className="block">
+            Your website has a grade. <TileStamp />
+          </span>
+          <span className="block">
+            <TileBeam /> Dare to see it? <TileScore />
+          </span>
+        </h1>
+      </div>
+
+      <div className="shell mt-10 grid items-start gap-12 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-16">
         {/* ---------------------------------------------- copy */}
         {/* min-w-0: without it a grid item's automatic minimum size is its
             content, and the 420px card would push the whole page sideways. */}
         <div className="order-2 min-w-0 lg:order-1">
-          <p className="t-eyebrow">15 deterministic checks · no signup</p>
-
-          <h1 className="t-hero mt-4">Your website has a grade. Dare to see it?</h1>
-
-          <p className="t-body mt-5 max-w-xl text-[1.0625rem]">
-            Paste a URL. Six seconds later you get one brutal number out of 100, the exact
-            fixes ranked by impact, and a share card you&rsquo;ll either brag about — or
-            quietly hide.
+          <p className="t-standfirst max-w-xl">
+            Paste a URL. Six seconds later you get one number out of 100, the exact fixes
+            ranked by impact, and a card you will either post or quietly close.
           </p>
 
           {/* ------------------------------------------- input */}

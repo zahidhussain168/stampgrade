@@ -48,9 +48,16 @@
      nothing behind the nav resolves into words, and it still reads as glass. */
   --glass-bg: rgba(14, 16, 20, 0.92);
 
-  /* Section rhythm */
+  /* Cool counterpart to ember. Used only for atmosphere — never for grades,
+     never for chrome. Ember lights one side of a section, aurora the other. */
+  --aurora: #4c7dff;
+  --aurora-soft: rgba(76, 125, 255, 0.14);
+
+  /* Section rhythm. Editorial padding: the type is the design, so it needs
+     room on every side of it. */
   --gutter: 24px;
-  --maxw: 1200px;
+  --maxw: 1280px;
+  --section-pad: clamp(96px, 14vw, 180px);
 }
 
 @theme inline {
@@ -76,7 +83,11 @@
   --radius-card: var(--radius);
   --radius-chip: var(--radius-sm);
 
-  --font-display: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --color-aurora: var(--aurora);
+  --color-aurora-soft: var(--aurora-soft);
+
+  --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
+  --font-standfirst: var(--font-general), system-ui, sans-serif;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", Menlo, monospace;
@@ -120,21 +131,37 @@ summary,
 
 /* ---------------------------------- type --------------------------- */
 /* Tracking is size-specific: tighter as the type gets bigger. */
+/* Editorial scale. Clash Display carries every headline; the size does the
+   shouting so nothing else has to. */
 .t-hero {
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.02;
-  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+  font-size: clamp(3.2rem, 9vw, 8rem);
   margin: 0;
+  text-wrap: balance;
 }
 
 .t-section {
   font-family: var(--font-display);
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 1.08;
-  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 1.02;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* Standfirst: General Sans, one step up from body, for the line that has to
+   carry the headline's weight without competing with it. */
+.t-standfirst {
+  font-family: var(--font-standfirst);
+  font-weight: 400;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  color: var(--text-dim);
   margin: 0;
 }
 
@@ -187,13 +214,91 @@ summary,
 }
 
 .section {
-  padding-block: clamp(72px, 11vw, 140px);
+  padding-block: var(--section-pad);
+  /* Sections stack their own glow plates; this keeps them behind content. */
+  position: relative;
+  isolation: isolate;
 }
 
 .hairline {
   border: 0;
   border-top: 1px solid var(--line);
   margin: 0;
+}
+
+/* ------------------------------ atmosphere ------------------------- */
+
+/* One fixed plate behind the whole document: a faint engineering grid plus a
+   grain wash. Both are authored here as gradients — no image files, nothing
+   to download, nothing to lazy-load. */
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 88px 88px;
+  /* Fades out toward the edges so the grid never reads as a hard tile. */
+  mask-image: radial-gradient(120% 90% at 50% 20%, #000 20%, transparent 78%);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 20%, #000 20%, transparent 78%);
+}
+
+/* Grain: a tiny repeating SVG turbulence tile, inlined as a data URI. */
+.atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Per-section light sources. Warm and cool, placed asymmetrically by the
+   modifier so no two sections are lit from the same angle. */
+.glow-plate {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.glow-plate span {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.glow-warm span {
+  background: radial-gradient(circle, var(--ember) 0%, transparent 68%);
+}
+.glow-cool span {
+  background: radial-gradient(circle, var(--aurora) 0%, transparent 68%);
+}
+
+/* --------------------------- editorial meta ------------------------ */
+
+/* Magazine-style column headers: a mono micro-label over a hairline. */
+.meta-label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  margin: 0 0 12px;
+  display: block;
 }
 
 /* -------------------------------- surfaces ------------------------- */
