@@ -16,6 +16,7 @@ import { pointerEffectsEnabled } from "@/lib/motion-prefs";
  */
 export function PointerFx() {
   const [enabled, setEnabled] = useState(false);
+  const shell = useRef<HTMLDivElement>(null);
   const dot = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
   const label = useRef<HTMLSpanElement>(null);
@@ -35,9 +36,23 @@ export function PointerFx() {
 
     const magnets = new Map<HTMLElement, { x: number; y: number }>();
 
+    // Hidden until the pointer actually moves. Without this the dot and ring
+    // sit parked in the middle of the page on load, which reads as a bug on
+    // any visit that starts with the mouse still.
+    let revealed = false;
+
     const onMove = (event: PointerEvent) => {
       pointer.x = event.clientX;
       pointer.y = event.clientY;
+
+      if (!revealed) {
+        revealed = true;
+        // Jump the trail to the first known position so it does not sweep in
+        // from the centre of the screen.
+        trail.x = event.clientX;
+        trail.y = event.clientY;
+        if (shell.current) shell.current.style.opacity = "1";
+      }
 
       const target = event.target as HTMLElement | null;
       const zone = target?.closest?.("[data-cursor]") as HTMLElement | null;
@@ -99,7 +114,12 @@ export function PointerFx() {
   if (!enabled) return null;
 
   return (
-    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[150]">
+    <div
+      ref={shell}
+      data-cursor-root=""
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 z-[150] opacity-0 transition-opacity duration-200"
+    >
       <div
         ref={dot}
         className="absolute left-0 top-0 h-1.5 w-1.5 rounded-full"
