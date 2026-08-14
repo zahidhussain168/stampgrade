@@ -18,7 +18,7 @@ export function TileStamp() {
       aria-hidden="true"
       data-tile="stamp"
       className={`${TILE} bg-surface-2`}
-      style={{ marginInline: "0.12em" }}
+      style={{ marginInline: "0.03em" }}
     >
       <span
         className="grid h-[62%] w-[62%] -rotate-6 place-items-center rounded-[10px] border-2"
@@ -39,7 +39,7 @@ export function TileBeam() {
       aria-hidden="true"
       data-tile="beam"
       className={`${TILE} overflow-hidden bg-surface`}
-      style={{ marginInline: "0.12em" }}
+      style={{ marginInline: "0.03em" }}
     >
       <svg viewBox="0 0 64 64" className="h-full w-full" focusable="false">
         <rect x="12" y="18" width="30" height="3" rx="1.5" fill="var(--line-strong)" />
@@ -72,7 +72,7 @@ export function TileScore() {
       aria-hidden="true"
       data-tile="score"
       className={`${TILE} bg-surface-2`}
-      style={{ marginInline: "0.12em" }}
+      style={{ marginInline: "0.03em" }}
     >
       <span className="flex flex-col items-center leading-none">
         <span
