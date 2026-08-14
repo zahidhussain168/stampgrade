@@ -20,13 +20,15 @@ const clash = localFont({
     { path: "./fonts/ClashDisplay-700.woff2", weight: "700", style: "normal" },
   ],
   variable: "--font-clash",
-  // "optional" rather than "swap" for the display face only. At 8rem, a swap
-  // rewraps the headline no matter how well the fallback metrics are matched,
-  // and that was the last 0.05 of CLS. With optional the browser either has
-  // the font at first paint or keeps the fallback for that view and caches
-  // Clash for the next one — so the headline never jumps. Body and mono keep
-  // swap, where the shift is immaterial.
-  display: "optional",
+  // "block" for the display face only. At 8rem any late application of Clash
+  // rewraps the headline, and "optional" left that to a race: measured across
+  // five runs CLS was bimodal, 0.015 when the font made first paint and 0.125
+  // when it did not. Next does not emit a preload link for a font applied
+  // only through a CSS variable, so the race could not be won by preloading.
+  // Block holds the headline invisible until Clash is there, then paints once.
+  // The file is same-origin and ~15KB, so the wait is short. Body and mono
+  // keep swap, where a shift is immaterial.
+  display: "block",
   preload: true,
   fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
