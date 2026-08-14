@@ -1,4 +1,4 @@
-import { ChecksSection } from "@/components/checks-section";
+import { Disciplines } from "@/components/disciplines";
 import { Faq } from "@/components/faq";
 import { FinalCta } from "@/components/final-cta";
 import { Hero } from "@/components/hero";
@@ -38,7 +38,7 @@ export default function Page() {
       />
       <Hero initialResult={demoResult} />
       <Ticker />
-      <ChecksSection />
+      <Disciplines />
       <Roadmap />
       <ShareLoop />
       <Pricing />
