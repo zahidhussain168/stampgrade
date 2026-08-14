@@ -43,7 +43,10 @@
   --elev: 0 1px 0 var(--line-bright) inset, 0 2px 4px rgba(0, 0, 0, 0.4),
     0 12px 24px rgba(0, 0, 0, 0.4), 0 32px 64px -12px rgba(0, 0, 0, 0.55);
 
-  --glass-bg: rgba(14, 16, 20, 0.6);
+  /* Was 0.6, which let roadmap rows read straight through the nav. 0.85 still
+     left "PERF_AUDIT" legible under the blur; 0.92 is the first step where
+     nothing behind the nav resolves into words, and it still reads as glass. */
+  --glass-bg: rgba(14, 16, 20, 0.92);
 
   /* Section rhythm */
   --gutter: 24px;
@@ -202,9 +205,17 @@ summary,
 }
 
 .glass {
-  background: var(--glass-bg);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* Solid by default so any browser without backdrop-filter still gets an
+     opaque nav; the translucent version is opted into below. */
+  background: var(--surface);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+  }
 }
 
 /* -------------------------------- focus ---------------------------- */
