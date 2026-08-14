@@ -47,7 +47,7 @@ export function StaticGradeCard({
           </div>
         </div>
 
-        <div className="mt-5 h-0.5 w-full overflow-hidden rounded-full bg-line">
+        <div className="mt-5 h-0.5 w-full overflow-hidden rounded-full bg-line-strong">
           <div
             className="h-full rounded-full"
             style={{ background: color, width: `${result.score}%` }}

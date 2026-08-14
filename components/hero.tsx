@@ -158,7 +158,9 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
     // half the weight of the full motion bundle, and we use no drag or layout
     // animation that would need domMax.
     <LazyMotion features={domAnimation} strict>
-      <section id="top" className="section pt-10 sm:pt-14">
+      {/* Bottom padding is deliberately shorter than the section default so
+          the ticker sits close under the hero instead of drifting. */}
+      <section id="top" className="section pb-12 pt-10 sm:pb-16 sm:pt-14">
       <div className="shell grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-16">
         {/* ---------------------------------------------- copy */}
         {/* min-w-0: without it a grid item's automatic minimum size is its
@@ -232,8 +234,10 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 -z-10"
               style={{
-                background: `radial-gradient(60% 55% at 50% 45%, color-mix(in srgb, ${color} 10%, transparent), transparent 70%)`,
-                transition: "background 600ms ease",
+                background: `radial-gradient(62% 58% at 50% 45%, color-mix(in srgb, ${color} 9%, transparent), transparent 72%)`,
+                // The grade's colour arrives with the grade. Held still for
+                // anyone who asked for less motion.
+                transition: reduced ? "none" : "background 600ms ease",
               }}
             />
 
@@ -247,7 +251,7 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
                 WebkitTextStroke: `2px ${color}`,
                 color: "transparent",
                 opacity: 0.06,
-                transition: "-webkit-text-stroke-color 600ms ease",
+                transition: reduced ? "none" : "-webkit-text-stroke-color 600ms ease",
               }}
             >
               {grade}
@@ -268,6 +272,29 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
                 consoleRows={consoleRows}
                 countUp={hasScanned}
                 tilt={-2}
+                actions={
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={onShare}
+                      className="pressable inline-flex h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-chip border border-line bg-surface-2 px-3 text-[0.8125rem] text-text hover:border-line-bright"
+                    >
+                      {shared ? (
+                        <Check size={15} strokeWidth={1.5} aria-hidden="true" />
+                      ) : (
+                        <Share2 size={15} strokeWidth={1.5} aria-hidden="true" />
+                      )}
+                      {shared ? "Copied" : "Share this card"}
+                    </button>
+
+                    <a
+                      href="#pricing"
+                      className="pressable inline-flex h-11 flex-1 items-center justify-center whitespace-nowrap rounded-chip border border-line bg-surface-2 px-3 text-[0.8125rem] text-text no-underline hover:border-line-bright"
+                    >
+                      Get the fix-it report
+                    </a>
+                  </div>
+                }
               />
             </m.div>
           </div>
@@ -282,39 +309,8 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
           </p>
 
           {result?.note && revealed && (
-            <p className="t-mono mt-1 text-center text-text-faint">{result.note}</p>
+            <p className="t-mono mt-3 text-center text-text-faint">{result.note}</p>
           )}
-
-          {/* Actions arrive only once there is something to act on. */}
-          <m.div
-            initial={false}
-            animate={{ opacity: revealed ? 1 : 0, y: revealed ? 0 : 6 }}
-            transition={{ duration: reduced ? 0.2 : 0.35, ease: "easeOut" }}
-            className="mt-4 flex flex-wrap justify-center gap-2"
-            aria-hidden={!revealed}
-          >
-            <button
-              type="button"
-              onClick={onShare}
-              tabIndex={revealed ? 0 : -1}
-              className="pressable inline-flex h-11 items-center gap-2 rounded-chip border border-line bg-surface px-4 text-sm text-text hover:border-line-bright"
-            >
-              {shared ? (
-                <Check size={16} strokeWidth={1.5} aria-hidden="true" />
-              ) : (
-                <Share2 size={16} strokeWidth={1.5} aria-hidden="true" />
-              )}
-              {shared ? "Copied" : "Share this card"}
-            </button>
-
-            <a
-              href="#pricing"
-              tabIndex={revealed ? 0 : -1}
-              className="pressable inline-flex h-11 items-center gap-2 rounded-chip border border-line bg-surface px-4 text-sm text-text no-underline hover:border-line-bright"
-            >
-              Get the fix-it report
-            </a>
-          </m.div>
           </div>
         </div>
       </section>

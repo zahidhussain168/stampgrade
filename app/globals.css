@@ -311,6 +311,22 @@ summary,
 .ticker {
   /* Isolates the marquee so its scrolling never invalidates page layout. */
   contain: content;
+  /* Items dissolve at the edges instead of being guillotined by the viewport. */
+  --ticker-fade: 96px;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--ticker-fade),
+    #000 calc(100% - var(--ticker-fade)),
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 var(--ticker-fade),
+    #000 calc(100% - var(--ticker-fade)),
+    transparent
+  );
 }
 .ticker-track {
   display: flex;

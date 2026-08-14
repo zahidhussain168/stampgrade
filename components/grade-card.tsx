@@ -135,6 +135,7 @@ export function GradeCard({
   countUp = true,
   tilt = 0,
   className = "",
+  actions,
 }: {
   result: ScanResult | null;
   phase: ScanPhase;
@@ -143,6 +144,8 @@ export function GradeCard({
   countUp?: boolean;
   tilt?: number;
   className?: string;
+  /** Docked to the card's bottom edge as footer controls. */
+  actions?: React.ReactNode;
 }) {
   const reduced = useReducedMotion();
   const motionOn = animated && !reduced;
@@ -237,7 +240,7 @@ export function GradeCard({
               </div>
 
               {/* Grade rail */}
-              <div className="mt-5 h-0.5 w-full overflow-hidden rounded-full bg-line">
+              <div className="mt-5 h-0.5 w-full overflow-hidden rounded-full bg-line-strong">
                 <m.div
                   className="h-full w-full origin-left rounded-full"
                   style={{ background: color }}
@@ -262,6 +265,14 @@ export function GradeCard({
                 <span aria-hidden="true">⌁</span> graded by StampGrade — get yours free ·
                 stampgrade.com
               </p>
+
+              {/* Docked to the card edge: the controls belong to the result,
+                  not to the page floating underneath it. */}
+              {actions && (
+                <div className="-mx-6 -mb-6 mt-5 border-t border-line px-4 py-3 sm:-mx-7 sm:-mb-7 sm:px-5">
+                  {actions}
+                </div>
+              )}
             </div>
           </m.div>
         )}

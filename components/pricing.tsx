@@ -57,6 +57,27 @@ const PLANS: Plan[] = [
   },
 ];
 
+/**
+ * Renders a feature line with its status pill bound to the final word, so the
+ * pill can wrap with the sentence but can never end up stranded alone on a
+ * line where it reads as belonging to nothing.
+ */
+function FeatureLabel({ text, soon }: { text: string; soon?: boolean }) {
+  if (!soon) return <>{text}</>;
+
+  const words = text.split(" ");
+  const lastWord = words.pop() ?? "";
+
+  return (
+    <>
+      {words.length > 0 && `${words.join(" ")} `}
+      <span className="whitespace-nowrap">
+        {lastWord} <Pill tone="soon" className="align-middle" />
+      </span>
+    </>
+  );
+}
+
 export function Pricing() {
   return (
     <section id="pricing" className="section border-t border-line">
@@ -96,10 +117,9 @@ export function Pricing() {
                   {plan.features.map((feature) => (
                     <li
                       key={feature.text}
-                      className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[0.9375rem] text-text-dim"
+                      className="text-[0.9375rem] leading-relaxed text-text-dim"
                     >
-                      <span>{feature.text}</span>
-                      {feature.soon && <Pill tone="soon" />}
+                      <FeatureLabel text={feature.text} soon={feature.soon} />
                     </li>
                   ))}
                 </ul>
