@@ -27,10 +27,10 @@ export function Faq() {
       <div className="shell max-w-3xl">
         <Reveal>
           <p className="t-eyebrow">FAQ</p>
-          <h2 className="t-section mt-4">Reasonable questions.</h2>
+          <h2 data-split="" className="t-section mt-4">Reasonable questions.</h2>
         </Reveal>
 
-        <Reveal delay={60}>
+        <Reveal>
           <div className="mt-10 border-t border-line">
             {ITEMS.map((item) => (
               <details key={item.q} className="group border-b border-line">

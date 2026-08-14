@@ -408,26 +408,9 @@ summary,
 }
 
 /* -------------------------- section reveal ------------------------- */
-/* Visible by default. The hidden starting state is applied only where a
-   script can actually arrive to undo it — otherwise a failed bundle or a
-   no-JS visitor gets a page that is blank below the hero. Browsers without
-   the `scripting` feature simply skip the block and show everything. */
-.reveal {
-  transition:
-    opacity 450ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 450ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (scripting: enabled) {
-  .reveal {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  .reveal.is-shown {
-    opacity: 1;
-    transform: none;
-  }
-}
+/* Nothing here. Reveal starting states are written by gsap.set after load,
+   never in CSS, so the server paint and any no-JS visitor get the finished
+   page with nothing to undo. See components/scroll-fx.tsx. */
 
 /* ---------------------------- ticker ------------------------------- */
 /* Transform-only loop so it never triggers layout. Duplicated content makes
@@ -512,11 +495,6 @@ summary,
   }
   .ticker-track > .ticker-copy:nth-child(2) {
     display: none;
-  }
-  /* Reveals must never leave content stranded when transitions are muted. */
-  .reveal {
-    opacity: 1;
-    transform: none;
   }
   /* The grade ambience holds still rather than cross-fading. */
   .grade-glow,

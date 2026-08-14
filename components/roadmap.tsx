@@ -51,7 +51,7 @@ export function Roadmap() {
       <div className="shell">
         <Reveal>
           <p className="t-eyebrow">Roadmap</p>
-          <h2 className="t-section mt-4 max-w-2xl">
+          <h2 data-split="" className="t-section mt-4 max-w-2xl">
             The engine is young. It&rsquo;s about to grow teeth.
           </h2>
           <p className="t-body mt-4 max-w-xl">
@@ -60,7 +60,7 @@ export function Roadmap() {
           </p>
         </Reveal>
 
-        <Reveal delay={60}>
+        <Reveal>
           <ul className="mt-10 list-none border-t border-line p-0">
             {ROWS.map((row) => (
               <li
@@ -77,7 +77,7 @@ export function Roadmap() {
           </ul>
         </Reveal>
 
-        <Reveal delay={90}>
+        <Reveal>
           <p className="t-mono mt-6 text-text-faint">Voting opens to Pro members at launch.</p>
         </Reveal>
       </div>

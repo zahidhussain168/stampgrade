@@ -4,7 +4,7 @@ export function FinalCta() {
   return (
     <section className="section border-t border-line">
       <Reveal className="shell flex flex-col items-center text-center">
-        <h2 className="t-section max-w-xl">You&rsquo;re about three clicks from knowing.</h2>
+        <h2 data-split="" className="t-section max-w-xl">You&rsquo;re about three clicks from knowing.</h2>
         <p className="t-body mt-4 max-w-md">
           Six seconds. Fifteen checks. One number you can&rsquo;t unsee.
         </p>

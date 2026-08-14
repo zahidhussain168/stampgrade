@@ -19,7 +19,7 @@ export function ShareLoop() {
       <div className="shell grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
         <Reveal>
           <p className="t-eyebrow">The loop</p>
-          <h2 className="t-section mt-4">Brag or confess. Either way, it spreads.</h2>
+          <h2 data-split="" className="t-section mt-4">Brag or confess. Either way, it spreads.</h2>
 
           <ul className="mt-8 list-none border-t border-line p-0">
             {STEPS.map((step) => (
@@ -37,7 +37,7 @@ export function ShareLoop() {
           </ul>
         </Reveal>
 
-        <Reveal delay={60} className="min-w-0">
+        <Reveal className="min-w-0">
           <div className="flex min-w-0 flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center">
             <StaticGradeCard result={BRAG} tilt={-1.5} className="max-w-[340px]" />
             <StaticGradeCard result={CONFESS} tilt={1.5} className="max-w-[340px] sm:mt-10" />

@@ -3,6 +3,9 @@ import localFont from "next/font/local";
 
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
+import { Preloader } from "@/components/preloader";
+import { ScrollFX } from "@/components/scroll-fx";
+import { SmoothScroll } from "@/components/smooth-scroll";
 
 import "./globals.css";
 
@@ -117,6 +120,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         {/* Fixed grid + grain behind everything. Purely decorative. */}
         <div className="atmosphere" aria-hidden="true" />
+        <Preloader />
+        <SmoothScroll />
+        <ScrollFX />
         <div className="relative z-[1]">
           <Nav />
           <main id="main">{children}</main>

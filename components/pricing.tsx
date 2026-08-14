@@ -84,12 +84,12 @@ export function Pricing() {
       <div className="shell">
         <Reveal>
           <p className="t-eyebrow">Pricing</p>
-          <h2 className="t-section mt-4 max-w-2xl">
+          <h2 data-split="" className="t-section mt-4 max-w-2xl">
             The grade is free. The fix is where we earn it.
           </h2>
         </Reveal>
 
-        <Reveal delay={60}>
+        <Reveal>
           <ul className="mt-10 grid list-none gap-4 p-0 lg:grid-cols-3">
             {PLANS.map((plan) => (
               <li

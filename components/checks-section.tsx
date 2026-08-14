@@ -8,7 +8,7 @@ export function ChecksSection() {
       <div className="shell">
         <Reveal>
           <p className="t-eyebrow">The engine</p>
-          <h2 className="t-section mt-4 max-w-2xl">
+          <h2 data-split="" className="t-section mt-4 max-w-2xl">
             No AI guesswork. Fifteen facts about your site.
           </h2>
           <p className="t-body mt-4 max-w-xl">
@@ -18,7 +18,7 @@ export function ChecksSection() {
         </Reveal>
 
         {/* 1px hairline grid: the gap is the border. */}
-        <Reveal delay={60}>
+        <Reveal>
           <ul className="mt-10 grid list-none gap-px overflow-hidden rounded-card border border-line bg-line p-0 sm:grid-cols-2 lg:grid-cols-3">
             {CHECKS.map((check) => (
               <li
