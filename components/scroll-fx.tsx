@@ -160,9 +160,10 @@ export function ScrollFX() {
               ScrollTrigger.create({
                 trigger: section,
                 start: "top top",
-                // Capped well under the 1.5 viewport budget so the pin is a
-                // beat, not a hostage situation.
-                end: "+=120%",
+                // 0.8 of a viewport: still ~240px of scroll per step, which
+                // is a clear beat, but it reserves 360px less spacer than the
+                // old 120% and stops the section reading as a dead band.
+                end: "+=80%",
                 pin: inner,
                 pinSpacing: true,
                 anticipatePin: 1,
