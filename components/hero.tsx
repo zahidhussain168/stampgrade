@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { CONSOLE_ORDER, GradeCard, type ScanPhase } from "./grade-card";
 import { GlowPlate } from "./atmosphere";
 import { TileBeam, TileScore, TileStamp } from "./headline-tiles";
+import { SplitSlot, SplitText } from "./split-text";
 import {
   DEMO_DOMAIN,
   type ScanResult,
@@ -175,12 +176,21 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
         {/* Full-bleed so the type can actually be the size it wants to be.
             The tiles sit inside the sentence, not beside it; screen readers
             get the plain line and the tiles are aria-hidden decoration. */}
-        <h1 className="t-hero mt-6" data-split="hero">
+        <h1 className="t-hero mt-6" data-split="">
           <span className="block">
-            Your website has a grade. <TileStamp />
+            <SplitText text="Your website has a grade." />{" "}
+            <SplitSlot>
+              <TileStamp />
+            </SplitSlot>
           </span>
           <span className="block">
-            <TileBeam /> Dare to see it? <TileScore />
+            <SplitSlot>
+              <TileBeam />
+            </SplitSlot>{" "}
+            <SplitText text="Dare to see it?" />{" "}
+            <SplitSlot>
+              <TileScore />
+            </SplitSlot>
           </span>
         </h1>
       </div>

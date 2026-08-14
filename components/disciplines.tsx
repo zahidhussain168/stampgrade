@@ -1,5 +1,6 @@
 "use client";
 
+import { SplitText } from "./split-text";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { GlowPlate } from "./atmosphere";
@@ -89,7 +90,7 @@ export function Disciplines() {
         <Reveal>
           <p className="t-eyebrow">The engine</p>
           <h2 data-split="" className="t-section mt-6 max-w-3xl">
-            Four disciplines. Fifteen facts.
+            <SplitText text="Four disciplines. Fifteen facts." />
           </h2>
           <p className="t-standfirst mt-6 max-w-xl">
             Every check is deterministic. Your page either passes or it does not. Run it
@@ -149,7 +150,7 @@ export function Disciplines() {
                     that isn't there. */}
                 <button
                   type="button"
-                  className="t-mono sr-only left-0 top-2 z-30 h-11 items-center rounded-chip border border-line bg-surface-2 px-3 text-text-dim focus:not-sr-only focus:absolute focus:inline-flex"
+                  className="t-mono sr-only left-0 top-2 z-30 items-center rounded-chip border border-line bg-surface-2 px-3 text-text-dim focus:not-sr-only focus:absolute focus:inline-flex focus:h-11"
                   aria-expanded={focused === index}
                   onClick={() => setFocused(focused === index ? null : index)}
                   onFocus={() => setFocused(index)}

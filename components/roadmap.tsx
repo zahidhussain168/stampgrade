@@ -1,3 +1,4 @@
+import { SplitText } from "./split-text";
 import { Pill, type PillTone } from "./pill";
 import { Reveal } from "./reveal";
 
@@ -52,7 +53,7 @@ export function Roadmap() {
         <Reveal>
           <p className="t-eyebrow">Roadmap</p>
           <h2 data-split="" className="t-section mt-4 max-w-2xl">
-            The engine is young. It&rsquo;s about to grow teeth.
+            <SplitText text="The engine is young. It’s about to grow teeth." />
           </h2>
           <p className="t-body mt-4 max-w-xl">
             Everything below ships in the order you vote for it. Pro and Agency subscribers

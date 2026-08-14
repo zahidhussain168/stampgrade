@@ -81,6 +81,7 @@ export function Preloader() {
   return (
     <div
       ref={root}
+      data-preloader=""
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-[200]"
     >

@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 
 import { enhancedMotionEnabled } from "@/lib/motion-prefs";
-import { splitWords } from "@/lib/split-text";
 
 /**
  * The one place GSAP is used. Everything else opts in with a data attribute,
@@ -52,8 +51,10 @@ export function ScrollFX() {
         const EASE = "power3.out";
 
         /* ------------------------------------------- headlines */
+        // The words are already wrapped in the server markup, so there is
+        // nothing to restructure here — only a transform to set.
         document.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
-          const { words } = splitWords(el);
+          const words = Array.from(el.querySelectorAll<HTMLElement>("[data-word]"));
           if (!words.length) return;
 
           gsap.set(words, { yPercent: 110 });
@@ -190,17 +191,25 @@ export function ScrollFX() {
         document.querySelectorAll<HTMLElement>("[data-counter]").forEach((el) => {
           const target = Number(el.dataset.counter ?? "0");
           const box = { value: 0 };
-          el.textContent = "0";
 
-          gsap.to(box, {
-            value: target,
-            duration: 1.2,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 88%", once: true },
-            onUpdate: () => {
-              el.textContent = Math.round(box.value).toLocaleString("en-US");
+          // immediateRender:false is load-bearing. Zeroing the element up
+          // front means any trigger that never fires leaves a permanent 0 on
+          // screen; this way the server-rendered number stands until the
+          // count actually starts.
+          gsap.fromTo(
+            box,
+            { value: 0 },
+            {
+              value: target,
+              duration: 1.2,
+              ease: "power2.out",
+              immediateRender: false,
+              scrollTrigger: { trigger: el, start: "top 90%", once: true },
+              onUpdate: () => {
+                el.textContent = Math.round(box.value).toLocaleString("en-US");
+              },
             },
-          });
+          );
         });
 
         ScrollTrigger.refresh();

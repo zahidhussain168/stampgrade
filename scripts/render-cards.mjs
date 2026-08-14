@@ -24,7 +24,6 @@ const SURFACE = "#0E1014";
 const SURFACE_2 = "#14171D";
 const LINE = "#1F232B";
 const LINE_STRONG = "#2B313B";
-const TEXT = "#F4F3F0";
 const TEXT_DIM = "#9BA1AB";
 const TEXT_FAINT = "#787F8C";
 const EMBER = "#FF6B52";

@@ -1,3 +1,4 @@
+import { SplitText } from "./split-text";
 import { Pill } from "./pill";
 import { Reveal } from "./reveal";
 
@@ -85,7 +86,7 @@ export function Pricing() {
         <Reveal>
           <p className="t-eyebrow">Pricing</p>
           <h2 data-split="" className="t-section mt-4 max-w-2xl">
-            The grade is free. The fix is where we earn it.
+            <SplitText text="The grade is free. The fix is where we earn it." />
           </h2>
         </Reveal>
 

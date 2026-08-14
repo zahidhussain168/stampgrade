@@ -446,6 +446,22 @@ summary,
   animation-play-state: paused;
 }
 
+/* --------------------------- split text ---------------------------- */
+/* Server-rendered so the layout is settled before JavaScript arrives. The
+   clip box hides the word until GSAP lifts it; the padding and matching
+   negative margin stop descenders being sheared off. */
+.split-clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.split-word {
+  display: inline-block;
+  will-change: transform;
+}
+
 /* --------------------------- scroll cue ---------------------------- */
 .scroll-cue {
   display: block;

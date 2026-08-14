@@ -1,3 +1,4 @@
+import { SplitText } from "./split-text";
 import Image, { type StaticImageData } from "next/image";
 
 import beforeAfter from "@/public/gallery/before-after.png";
@@ -72,7 +73,7 @@ export function WallOfGrades() {
         <Reveal>
           <p className="t-eyebrow">The wall</p>
           <h2 data-split="" className="t-section mt-6 max-w-3xl">
-            Four cards. Four different afternoons.
+            <SplitText text="Four cards. Four different afternoons." />
           </h2>
           <p className="t-standfirst mt-6 max-w-xl">
             Every image here is a real card the engine produces. Nothing has been retouched

@@ -1,3 +1,4 @@
+import { SplitText } from "./split-text";
 import { GlowPlate } from "./atmosphere";
 import { Reveal } from "./reveal";
 
@@ -36,7 +37,7 @@ export function Process() {
         <Reveal>
           <p className="t-eyebrow">The process</p>
           <h2 data-split="" className="t-section mt-6 max-w-3xl">
-            Paste. Scan. Share.
+            <SplitText text="Paste. Scan. Share." />
           </h2>
         </Reveal>
 

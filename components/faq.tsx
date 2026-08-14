@@ -1,3 +1,4 @@
+import { SplitText } from "./split-text";
 import { Plus } from "lucide-react";
 
 import { Reveal } from "./reveal";
@@ -27,7 +28,7 @@ export function Faq() {
       <div className="shell max-w-3xl">
         <Reveal>
           <p className="t-eyebrow">FAQ</p>
-          <h2 data-split="" className="t-section mt-4">Reasonable questions.</h2>
+          <h2 data-split="" className="t-section mt-4"><SplitText text="Reasonable questions." /></h2>
         </Reveal>
 
         <Reveal>
