@@ -54,11 +54,12 @@
   --aurora: #4c7dff;
   --aurora-soft: rgba(76, 125, 255, 0.14);
 
-  /* Section rhythm. Editorial padding: the type is the design, so it needs
-     room on every side of it. */
+  /* Section rhythm. Editorial, but measured: at the old clamp every section
+     opened with ~200px of empty canvas above its eyebrow, which reads as the
+     page having stalled rather than as breathing room. */
   --gutter: 24px;
   --maxw: 1280px;
-  --section-pad: clamp(96px, 14vw, 180px);
+  --section-pad: clamp(56px, 7vw, 88px);
 }
 
 @theme inline {

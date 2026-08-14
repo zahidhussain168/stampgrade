@@ -81,7 +81,7 @@ export function WallOfGrades() {
           </p>
         </Reveal>
 
-        <div className="mt-20 space-y-24 lg:space-y-32">
+        <div className="mt-14 space-y-16 lg:space-y-24">
           {ENTRIES.map((entry) => (
             <article key={entry.id} data-clip="" className="grid gap-8 lg:grid-cols-12 lg:gap-12">
               <div className="lg:col-span-8">
@@ -130,7 +130,7 @@ export function WallOfGrades() {
           ))}
         </div>
 
-        <CircuitLine className="mt-24 opacity-70" />
+        <CircuitLine className="mt-12 opacity-70" />
       </div>
     </section>
   );
