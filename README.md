@@ -56,8 +56,8 @@ Copy `.env.example` to `.env.local` to enable the extras:
 
 | Variable              | Required | What it does                                                            |
 | --------------------- | -------- | ----------------------------------------------------------------------- |
-| `SUPABASE_URL`        | No       | Anonymous scan log. Powers the real "sites graded this week" counter.    |
-| `SUPABASE_SECRET_KEY` | No       | Pairs with the above. Without both, the counter falls back to a static number. |
+| `SUPABASE_URL`        | No       | Anonymous scan log (domain, score, grade). Nothing on the site reads it yet. |
+| `SUPABASE_SECRET_KEY` | No       | Pairs with the above. Without both, nothing is logged and nothing breaks. |
 | `RESEND_API_KEY`      | No       | Reserved for scheduled re-scan alerts. Nothing sends mail yet.           |
 
 All three are server-only. None may ever carry a `NEXT_PUBLIC_` prefix.

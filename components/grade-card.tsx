@@ -73,15 +73,18 @@ function ScoreNumeral({
   score,
   color,
   animated,
+  countUp,
 }: {
   score: number;
   color: string;
   animated: boolean;
+  /** False for the server-rendered card, which already shows its number. */
+  countUp: boolean;
 }) {
   const node = useRef<HTMLSpanElement>(null);
   // Mirrors what is painted, so an interrupted count eases on from the number
   // already on screen instead of snapping back to zero.
-  const current = useRef(0);
+  const current = useRef(countUp ? 0 : score);
 
   useEffect(() => {
     const target = node.current;
@@ -117,7 +120,7 @@ function ScoreNumeral({
       className="font-display text-[clamp(4rem,13vw,5.5rem)] font-extrabold leading-none tracking-[-0.04em] tabular-nums"
       style={{ color }}
     >
-      0
+      {countUp ? 0 : score}
     </span>
   );
 }
@@ -129,6 +132,7 @@ export function GradeCard({
   phase,
   consoleRows = 0,
   animated = true,
+  countUp = true,
   tilt = 0,
   className = "",
 }: {
@@ -136,6 +140,7 @@ export function GradeCard({
   phase: ScanPhase;
   consoleRows?: number;
   animated?: boolean;
+  countUp?: boolean;
   tilt?: number;
   className?: string;
 }) {
@@ -188,7 +193,12 @@ export function GradeCard({
               <div className="flex items-start justify-between gap-4">
                 <div className="flex flex-col">
                   {result ? (
-                    <ScoreNumeral score={result.score} color={color} animated={motionOn} />
+                    <ScoreNumeral
+                      score={result.score}
+                      color={color}
+                      animated={motionOn}
+                      countUp={countUp}
+                    />
                   ) : (
                     <span
                       className="font-display text-[clamp(4rem,13vw,5.5rem)] font-extrabold leading-none tracking-[-0.04em] text-text-faint"

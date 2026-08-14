@@ -77,6 +77,12 @@ export interface ScanResult {
 /* Check catalogue                                                     */
 /* ------------------------------------------------------------------ */
 
+/**
+ * The domain the hero grades on arrival. Shared so the server can render the
+ * same result the client will re-run.
+ */
+export const DEMO_DOMAIN = "demo-startup.io";
+
 /** Weights total exactly 100. */
 export const CHECKS: CheckDefinition[] = [
   { id: "HTTPS", label: "Loads over a secure connection", weight: 12, impact: "critical" },

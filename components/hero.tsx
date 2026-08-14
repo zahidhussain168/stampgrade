@@ -6,26 +6,30 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { CONSOLE_ORDER, GradeCard, type ScanPhase } from "./grade-card";
 import {
+  DEMO_DOMAIN,
   type ScanResult,
   demoScan,
   gradeColorVar,
   normaliseUrl,
 } from "@/lib/scan-engine";
 
-const DEMO_DOMAIN = "demo-startup.io";
 const ROW_INTERVAL_MS = 180;
 /** Beat between the last console row and the reveal. */
 const SETTLE_MS = 260;
 
-export function Hero({ weeklyCount }: { weeklyCount: number }) {
+export function Hero({ initialResult }: { initialResult: ScanResult }) {
   const reduced = useReducedMotion();
 
   const [value, setValue] = useState("");
-  const [result, setResult] = useState<ScanResult | null>(null);
-  const [phase, setPhase] = useState<ScanPhase>("idle");
+  // Seeded from the server so the card is already graded on first paint.
+  const [result, setResult] = useState<ScanResult | null>(initialResult);
+  const [phase, setPhase] = useState<ScanPhase>("revealed");
   const [consoleRows, setConsoleRows] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [shared, setShared] = useState(false);
+  // The counter climbs from zero only for scans the visitor watched happen;
+  // the server-rendered card is already showing its real number.
+  const [hasScanned, setHasScanned] = useState(false);
 
   // Every run gets an id; anything from an older run is ignored rather than
   // cancelled, so a second scan can start before the first has finished.
@@ -42,6 +46,7 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
       const id = ++runId.current;
       setError(null);
       setShared(false);
+      setHasScanned(true);
       setPhase("scanning");
       setConsoleRows(reduced ? CONSOLE_ORDER.length : 0);
 
@@ -212,9 +217,10 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
             </p>
           )}
 
+          {/* Every claim here is checkable. A "sites graded this week" counter
+              goes back the day there is a real number behind it. */}
           <p id="scan-help" className="t-mono mt-4 text-text-faint">
-            Free forever · no email · {weeklyCount.toLocaleString("en-US")} sites graded this
-            week
+            15 checks · no email · ~6 seconds
           </p>
         </div>
 
@@ -256,7 +262,13 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
                   : { duration: 6, repeat: Infinity, ease: "easeInOut" }
               }
             >
-              <GradeCard result={result} phase={phase} consoleRows={consoleRows} tilt={-2} />
+              <GradeCard
+                result={result}
+                phase={phase}
+                consoleRows={consoleRows}
+                countUp={hasScanned}
+                tilt={-2}
+              />
             </m.div>
           </div>
 

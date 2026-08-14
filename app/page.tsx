@@ -6,7 +6,7 @@ import { Pricing } from "@/components/pricing";
 import { Roadmap } from "@/components/roadmap";
 import { ShareLoop } from "@/components/share-loop";
 import { Ticker } from "@/components/ticker";
-import { weeklyScanCount } from "@/lib/scan-log";
+import { DEMO_DOMAIN, demoScan } from "@/lib/scan-engine";
 
 const STRUCTURED_DATA = {
   "@context": "https://schema.org",
@@ -24,8 +24,10 @@ const STRUCTURED_DATA = {
   ],
 };
 
-export default async function Page() {
-  const weeklyCount = await weeklyScanCount();
+export default function Page() {
+  // Rendered into the card's markup, so the first paint (and any visitor
+  // without JavaScript) gets a real graded example rather than a skeleton.
+  const demoResult = demoScan(DEMO_DOMAIN);
 
   return (
     <>
@@ -34,7 +36,7 @@ export default async function Page() {
         // Static, author-controlled object — no user input reaches this.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
       />
-      <Hero weeklyCount={weeklyCount} />
+      <Hero initialResult={demoResult} />
       <Ticker />
       <ChecksSection />
       <Roadmap />
