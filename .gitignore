@@ -41,7 +41,6 @@ api.txt
 *.pem
 
 # editor / tooling
-/.claude
 .idea
 .vscode
 

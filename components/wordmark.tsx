@@ -5,7 +5,7 @@
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span
-      className={`relative inline-block font-display font-bold tracking-[-0.02em] text-text ${className}`}
+      className={`relative inline-block font-display font-bold leading-none tracking-[-0.02em] text-text ${className}`}
     >
       <span aria-hidden="true" className="stamp-tick" />
       StampGrade

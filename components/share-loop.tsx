@@ -1,9 +1,7 @@
-"use client";
-
 import { craftResult } from "@/lib/scan-engine";
 
-import { GradeCard } from "./grade-card";
 import { Reveal } from "./reveal";
+import { StaticGradeCard } from "./static-grade-card";
 
 // Illustrative cards, not scans of real businesses.
 const BRAG = craftResult("northwind.studio", 94);
@@ -41,22 +39,8 @@ export function ShareLoop() {
 
         <Reveal delay={60} className="min-w-0">
           <div className="flex min-w-0 flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center">
-            <GradeCard
-              result={BRAG}
-              phase="revealed"
-              animated={false}
-              tilt={-1.5}
-              straightenOnHover
-              className="max-w-[340px]"
-            />
-            <GradeCard
-              result={CONFESS}
-              phase="revealed"
-              animated={false}
-              tilt={1.5}
-              straightenOnHover
-              className="max-w-[340px] sm:mt-10"
-            />
+            <StaticGradeCard result={BRAG} tilt={-1.5} className="max-w-[340px]" />
+            <StaticGradeCard result={CONFESS} tilt={1.5} className="max-w-[340px] sm:mt-10" />
           </div>
         </Reveal>
       </div>

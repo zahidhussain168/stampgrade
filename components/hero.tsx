@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { LazyMotion, domAnimation, m, useReducedMotion } from "motion/react";
 import { ArrowRight, Share2, Check } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -101,10 +101,25 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
     [reduced],
   );
 
-  // Open on the output: the page grades a site before you ask it to.
+  // Open on the output: the page grades a site before you ask it to. Timed
+  // from window load rather than mount, so the reveal never competes with the
+  // browser's own first paint.
   useEffect(() => {
-    const timer = setTimeout(() => void runScan(DEMO_DOMAIN, { local: true }), 700);
-    return () => clearTimeout(timer);
+    let timer: ReturnType<typeof setTimeout>;
+    const start = () => {
+      timer = setTimeout(() => void runScan(DEMO_DOMAIN, { local: true }), 700);
+    };
+
+    if (document.readyState === "complete") {
+      start();
+      return () => clearTimeout(timer);
+    }
+
+    window.addEventListener("load", start, { once: true });
+    return () => {
+      window.removeEventListener("load", start);
+      clearTimeout(timer);
+    };
   }, [runScan]);
 
   const onSubmit = (event: React.FormEvent) => {
@@ -134,7 +149,11 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
   const revealed = phase === "revealed" && result !== null;
 
   return (
-    <section id="top" className="section pt-10 sm:pt-14">
+    // domAnimation carries animations, variants and exit transitions — about
+    // half the weight of the full motion bundle, and we use no drag or layout
+    // animation that would need domMax.
+    <LazyMotion features={domAnimation} strict>
+      <section id="top" className="section pt-10 sm:pt-14">
       <div className="shell grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-16">
         {/* ---------------------------------------------- copy */}
         {/* min-w-0: without it a grid item's automatic minimum size is its
@@ -215,7 +234,9 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
             {/* Huge outlined grade letter, barely there. */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[20rem] font-extrabold leading-none"
+              // Scaled down on small screens: a 320px stroked glyph is
+              // expensive to rasterise and was winning LCP on mobile.
+              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[11rem] font-extrabold leading-none sm:text-[16rem] lg:text-[20rem]"
               style={{
                 WebkitTextStroke: `2px ${color}`,
                 color: "transparent",
@@ -226,7 +247,7 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
               {grade}
             </span>
 
-            <motion.div
+            <m.div
               className="w-full max-w-[420px]"
               animate={reduced ? { y: 0 } : { y: [-4, 4, -4] }}
               transition={
@@ -236,7 +257,7 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
               }
             >
               <GradeCard result={result} phase={phase} consoleRows={consoleRows} tilt={-2} />
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Announces outcomes only — the console itself is decorative. */}
@@ -253,7 +274,7 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
           )}
 
           {/* Actions arrive only once there is something to act on. */}
-          <motion.div
+          <m.div
             initial={false}
             animate={{ opacity: revealed ? 1 : 0, y: revealed ? 0 : 6 }}
             transition={{ duration: reduced ? 0.2 : 0.35, ease: "easeOut" }}
@@ -281,9 +302,10 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
             >
               Get the fix-it report
             </a>
-          </motion.div>
+          </m.div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </LazyMotion>
   );
 }

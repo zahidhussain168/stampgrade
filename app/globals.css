@@ -247,10 +247,18 @@ summary,
   box-shadow: 0 0 0 4px var(--ember-soft);
 }
 
+/* Tilted example cards straighten up when you point at them. */
+.straighten {
+  transition: rotate 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.straighten:hover {
+  rotate: 0deg !important;
+}
+
 /* The 2px ember stamp-tick that comes down on the S. */
 .stamp-tick {
   position: absolute;
-  top: -0.32em;
+  top: -0.2em;
   left: 0.06em;
   width: 0.34em;
   height: 2px;
@@ -274,9 +282,14 @@ summary,
 /* ---------------------------- ticker ------------------------------- */
 /* Transform-only loop so it never triggers layout. Duplicated content makes
    the wrap seamless; the whole strip is aria-hidden. */
+.ticker {
+  /* Isolates the marquee so its scrolling never invalidates page layout. */
+  contain: content;
+}
 .ticker-track {
   display: flex;
   width: max-content;
+  will-change: transform;
   animation: ticker-scroll 48s linear infinite;
 }
 .ticker:hover .ticker-track,

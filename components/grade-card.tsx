@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 
 import {
@@ -35,7 +35,7 @@ function Console({ revealed, result }: { revealed: number; result: ScanResult | 
       {CONSOLE_ORDER.slice(0, revealed).map((id) => {
         const check = result?.checks.find((c) => c.id === id);
         return (
-          <motion.div
+          <m.div
             key={id}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
@@ -53,19 +53,19 @@ function Console({ revealed, result }: { revealed: number; result: ScanResult | 
             ) : (
               <span className="shrink-0 text-text-faint">····</span>
             )}
-          </motion.div>
+          </m.div>
         );
       })}
 
       {revealed >= CONSOLE_ORDER.length && (
-        <motion.p
+        <m.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.18 }}
           className="t-mono m-0 pt-1 text-text-faint"
         >
           … 7 more checks
-        </motion.p>
+        </m.p>
       )}
     </div>
   );
@@ -135,7 +135,6 @@ export function GradeCard({
   animated = true,
   tilt = 0,
   className = "",
-  straightenOnHover = false,
 }: {
   result: ScanResult | null;
   phase: ScanPhase;
@@ -143,7 +142,6 @@ export function GradeCard({
   animated?: boolean;
   tilt?: number;
   className?: string;
-  straightenOnHover?: boolean;
 }) {
   const reduced = useReducedMotion();
   const motionOn = animated && !reduced;
@@ -154,10 +152,8 @@ export function GradeCard({
   const showConsole = phase === "scanning";
 
   return (
-    <motion.article
-      className={`elevated relative w-full max-w-[420px] overflow-hidden p-6 sm:p-7 ${
-        straightenOnHover ? "transition-transform duration-300 hover:!rotate-0" : ""
-      } ${className}`}
+    <m.article
+      className={`elevated relative w-full max-w-[420px] overflow-hidden p-6 sm:p-7 ${className}`}
       style={{ rotate: `${tilt}deg` }}
       aria-label={
         result
@@ -170,7 +166,7 @@ export function GradeCard({
 
       <AnimatePresence mode="wait" initial={false}>
         {showConsole ? (
-          <motion.div
+          <m.div
             key="console"
             initial={{ opacity: 0, rotateX: motionOn ? -6 : 0 }}
             animate={{ opacity: 1, rotateX: 0 }}
@@ -179,9 +175,9 @@ export function GradeCard({
             className="mt-5"
           >
             <Console revealed={consoleRows} result={result} />
-          </motion.div>
+          </m.div>
         ) : (
-          <motion.div
+          <m.div
             key="face"
             initial={{ opacity: 0, rotateX: motionOn ? 6 : 0 }}
             animate={{ opacity: 1, rotateX: 0 }}
@@ -207,7 +203,7 @@ export function GradeCard({
                 </div>
 
                 {result && (
-                  <motion.div
+                  <m.div
                     key={`${result.domain}-${result.grade}`}
                     initial={
                       motionOn
@@ -228,13 +224,13 @@ export function GradeCard({
                     <span className="font-display text-[2.5rem] font-extrabold leading-none tracking-[-0.02em]">
                       {result.grade}
                     </span>
-                  </motion.div>
+                  </m.div>
                 )}
               </div>
 
               {/* Grade rail */}
               <div className="mt-5 h-0.5 w-full overflow-hidden rounded-full bg-line">
-                <motion.div
+                <m.div
                   className="h-full w-full origin-left rounded-full"
                   style={{ background: color }}
                   initial={{ scaleX: 0 }}
@@ -268,14 +264,16 @@ export function GradeCard({
               <div className="flex-1" />
 
               {/* Watermark */}
-              <p className="t-mono m-0 mt-6 truncate text-[0.6875rem] text-text-faint">
+              {/* Never truncated: this line is the whole distribution loop,
+                  and it stays at 12px so the faint tier remains legible. */}
+              <p className="t-mono m-0 mt-6 text-xs leading-relaxed text-text-faint">
                 <span aria-hidden="true">⌁</span> graded by StampGrade — get yours free ·
                 stampgrade.com
               </p>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.article>
+    </m.article>
   );
 }
