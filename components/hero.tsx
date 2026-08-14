@@ -167,7 +167,7 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
     <LazyMotion features={domAnimation} strict>
       {/* Bottom padding is deliberately shorter than the section default so
           the ticker sits close under the hero instead of drifting. */}
-      <section id="top" className="section pb-14 pt-10 sm:pt-16">
+      <section id="top" className="section pb-14 pt-6 sm:pt-10">
         <GlowPlate tone="warm" placement="top-right" size={54} opacity={0.11} />
         <GlowPlate tone="cool" placement="bottom-left" size={44} opacity={0.08} />
       <div className="shell">

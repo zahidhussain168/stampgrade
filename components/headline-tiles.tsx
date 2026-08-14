@@ -9,7 +9,9 @@
 const TILE =
   "inline-grid place-items-center align-middle shrink-0 rounded-[18px] border border-line-bright " +
   "shadow-[0_1px_0_var(--line-bright)_inset,0_10px_30px_-8px_rgba(0,0,0,.65)] " +
-  "h-[0.72em] w-[0.72em] min-h-[56px] min-w-[56px] max-h-[88px] max-w-[88px]";
+  // Tightened with the headline cap: at the old ceiling the tiles were the
+  // tallest thing on the line and set the line box, so the whole block grew.
+  "h-[0.66em] w-[0.66em] min-h-[44px] min-w-[44px] max-h-[68px] max-w-[68px]";
 
 /** The stamp: a grade A struck at the same -6° as the real thing. */
 export function TileStamp() {
