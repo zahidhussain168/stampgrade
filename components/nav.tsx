@@ -23,7 +23,7 @@ export function Nav() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
+      className={`sticky top-0 z-[100] w-full transition-colors duration-300 ${
         scrolled ? "glass border-b border-line" : "border-b border-transparent"
       }`}
     >

@@ -131,8 +131,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SmoothScroll />
         <ScrollFX />
         <PointerFx />
+        {/* The nav is hoisted out of the content wrapper deliberately. Inside
+            it, the header competed with every section's stacking context —
+            and sections isolate, GSAP pins them, and the gallery's meta
+            columns carry transforms, each of which is a context that a future
+            change could raise above a z-50 sibling. As a direct child of body
+            above the wrapper, nothing rendered inside main can paint over the
+            bar no matter what contexts it creates. Only the cursor (z-150)
+            and the preloader (z-200) sit higher, both by design. */}
+        <Nav />
         <div className="relative z-[1]">
-          <Nav />
           <main id="main">{children}</main>
           <Footer />
         </div>
