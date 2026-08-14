@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "og": "node scripts/generate-assets.mjs"
+    "og": "node scripts/generate-assets.mjs",
+    "gallery": "node scripts/render-cards.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",

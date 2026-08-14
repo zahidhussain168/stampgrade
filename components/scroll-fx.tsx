@@ -87,19 +87,25 @@ export function ScrollFX() {
 
         /* ------------------------------------ gallery clip wipe */
         document.querySelectorAll<HTMLElement>("[data-clip]").forEach((el) => {
-          const media = el.querySelector<HTMLElement>("[data-clip-media]") ?? el;
+          // The wipe is applied to the media frame only — clipping the whole
+          // entry would take the meta columns with it.
+          const media = el.querySelector<HTMLElement>("[data-clip-media]");
+          const inner = media?.firstElementChild as HTMLElement | null;
           const meta = el.querySelectorAll<HTMLElement>("[data-clip-meta]");
+          if (!media) return;
 
-          gsap.set(el, { clipPath: "inset(100% 0% 0% 0%)" });
-          gsap.set(media, { scale: 1.06 });
+          gsap.set(media, { clipPath: "inset(100% 0% 0% 0%)" });
+          if (inner) gsap.set(inner, { scale: 1.06 });
           if (meta.length) gsap.set(meta, { opacity: 0, y: 18 });
 
           const tl = gsap.timeline({
             scrollTrigger: { trigger: el, start: "top 80%", once: true },
           });
-          tl.to(el, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.9, ease: EASE })
-            .to(media, { scale: 1, duration: 1.1, ease: EASE }, 0)
-            .to(meta, { opacity: 1, y: 0, duration: 0.55, ease: EASE, stagger: 0.05 }, 0.08);
+          tl.to(media, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.9, ease: EASE });
+          if (inner) tl.to(inner, { scale: 1, duration: 1.1, ease: EASE }, 0);
+          if (meta.length) {
+            tl.to(meta, { opacity: 1, y: 0, duration: 0.55, ease: EASE, stagger: 0.05 }, 0.08);
+          }
         });
 
         /* -------------------------------------------- parallax */

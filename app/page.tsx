@@ -4,7 +4,7 @@ import { FinalCta } from "@/components/final-cta";
 import { Hero } from "@/components/hero";
 import { Pricing } from "@/components/pricing";
 import { Roadmap } from "@/components/roadmap";
-import { ShareLoop } from "@/components/share-loop";
+import { WallOfGrades } from "@/components/wall-of-grades";
 import { Ticker } from "@/components/ticker";
 import { DEMO_DOMAIN, demoScan } from "@/lib/scan-engine";
 
@@ -40,7 +40,7 @@ export default function Page() {
       <Ticker />
       <Disciplines />
       <Roadmap />
-      <ShareLoop />
+      <WallOfGrades />
       <Pricing />
       <Faq />
       <FinalCta />
