@@ -1,8 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useTransform } from "motion/react";
-import { animate } from "motion";
-import { useEffect } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef } from "react";
 
 import {
   type CheckId,
@@ -12,6 +11,9 @@ import {
 } from "@/lib/scan-engine";
 
 export type ScanPhase = "idle" | "scanning" | "revealed";
+
+/** How long the score numeral takes to climb to its final value. */
+const COUNT_MS = 1200;
 
 /** The eight checks the console narrates before it summarises the rest. */
 export const CONSOLE_ORDER: CheckId[] = [
@@ -80,29 +82,46 @@ function ScoreNumeral({
   color: string;
   animated: boolean;
 }) {
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, (v) => Math.round(v));
+  const node = useRef<HTMLSpanElement>(null);
+  // Mirrors what is painted, so an interrupted count eases on from the number
+  // already on screen instead of snapping back to zero.
+  const current = useRef(0);
 
   useEffect(() => {
+    const target = node.current;
+    if (!target) return;
+
     if (!animated) {
-      count.set(score);
+      current.current = score;
+      target.textContent = String(score);
       return;
     }
-    // Always animates from wherever the value currently sits, so a second
-    // scan mid-count eases on from there instead of snapping back to zero.
-    const controls = animate(count, score, {
-      duration: 1.2,
-      ease: [0.16, 1, 0.3, 1],
-    });
-    return () => controls.stop();
-  }, [score, animated, count]);
+
+    const from = current.current;
+    const delta = score - from;
+    const start = performance.now();
+    let frame = 0;
+
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / COUNT_MS, 1);
+      // easeOutQuint — decisive at the start, settles gently on the number.
+      const eased = 1 - Math.pow(1 - t, 5);
+      current.current = from + delta * eased;
+      target.textContent = String(Math.round(current.current));
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [score, animated]);
 
   return (
     <span
+      ref={node}
       className="font-display text-[clamp(4rem,13vw,5.5rem)] font-extrabold leading-none tracking-[-0.04em] tabular-nums"
       style={{ color }}
     >
-      <motion.span>{rounded}</motion.span>
+      0
     </span>
   );
 }

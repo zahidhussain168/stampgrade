@@ -39,8 +39,8 @@ export function ShareLoop() {
           </ul>
         </Reveal>
 
-        <Reveal delay={60}>
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center">
+        <Reveal delay={60} className="min-w-0">
+          <div className="flex min-w-0 flex-col items-center gap-6 sm:flex-row sm:items-start sm:justify-center">
             <GradeCard
               result={BRAG}
               phase="revealed"

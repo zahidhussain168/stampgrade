@@ -14,7 +14,10 @@
 
   --text: #f4f3f0;
   --text-dim: #9ba1ab;
-  --text-faint: #5d636e;
+  /* Raised from the original #5D636E, which measured 3.3:1 on canvas and
+     failed AA wherever it carried real words. This clears 4.5:1 on canvas and
+     on --surface while staying clearly the faintest tier. */
+  --text-faint: #787f8c;
 
   --ember: #ff6b52;
   --ember-soft: rgba(255, 107, 82, 0.14);

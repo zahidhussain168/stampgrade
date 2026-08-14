@@ -30,7 +30,7 @@ export function Nav() {
       <nav aria-label="Primary" className="shell flex h-16 items-center justify-between gap-4">
         <a
           href="#top"
-          className="flex items-center rounded-chip text-[1.0625rem] no-underline"
+          className="flex h-11 items-center rounded-chip pr-2 text-[1.0625rem] no-underline"
           aria-label="StampGrade — home"
         >
           <Wordmark />

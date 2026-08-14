@@ -137,7 +137,9 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
     <section id="top" className="section pt-10 sm:pt-14">
       <div className="shell grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-16">
         {/* ---------------------------------------------- copy */}
-        <div className="order-2 lg:order-1">
+        {/* min-w-0: without it a grid item's automatic minimum size is its
+            content, and the 420px card would push the whole page sideways. */}
+        <div className="order-2 min-w-0 lg:order-1">
           <p className="t-eyebrow">15 deterministic checks · no signup</p>
 
           <h1 className="t-hero mt-4">Your website has a grade. Dare to see it?</h1>
@@ -198,7 +200,7 @@ export function Hero({ weeklyCount }: { weeklyCount: number }) {
         </div>
 
         {/* ---------------------------------------------- card */}
-        <div className="order-1 lg:order-2">
+        <div className="order-1 min-w-0 lg:order-2">
           <div className="relative flex justify-center py-6">
             {/* Grade-coloured wash, crossfading between grades. */}
             <div
