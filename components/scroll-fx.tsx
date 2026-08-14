@@ -140,6 +140,52 @@ export function ScrollFX() {
           );
         });
 
+        /* ----------------------------------------- pinned steps */
+        // Desktop only. Below 1024px the section simply stacks and scrolls —
+        // pinning on a short viewport traps the reader rather than guiding
+        // them. matchMedia cleans the pin up itself on resize.
+        ScrollTrigger.matchMedia({
+          "(min-width: 1024px)": () => {
+            document.querySelectorAll<HTMLElement>("[data-pin]").forEach((section) => {
+              const inner = section.querySelector<HTMLElement>("[data-pin-inner]");
+              const steps = section.querySelectorAll<HTMLElement>("[data-step]");
+              if (!inner || !steps.length) return;
+
+              const indices = section.querySelectorAll<HTMLElement>("[data-step-index]");
+              gsap.set(steps, { opacity: 0.35 });
+              gsap.set(steps[0], { opacity: 1 });
+              if (indices[0]) gsap.set(indices[0], { color: "var(--ember)" });
+
+              ScrollTrigger.create({
+                trigger: section,
+                start: "top top",
+                // Capped well under the 1.5 viewport budget so the pin is a
+                // beat, not a hostage situation.
+                end: "+=120%",
+                pin: inner,
+                pinSpacing: true,
+                anticipatePin: 1,
+                onUpdate: (self) => {
+                  const active = Math.min(
+                    steps.length - 1,
+                    Math.floor(self.progress * steps.length),
+                  );
+                  steps.forEach((step, i) => {
+                    gsap.to(step, { opacity: i === active ? 1 : 0.35, duration: 0.3 });
+                    const index = indices[i];
+                    if (index) {
+                      gsap.to(index, {
+                        color: i === active ? "var(--ember)" : "var(--text-faint)",
+                        duration: 0.3,
+                      });
+                    }
+                  });
+                },
+              });
+            });
+          },
+        });
+
         /* -------------------------------------------- counters */
         document.querySelectorAll<HTMLElement>("[data-counter]").forEach((el) => {
           const target = Number(el.dataset.counter ?? "0");

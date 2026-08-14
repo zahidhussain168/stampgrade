@@ -3,8 +3,10 @@ import { Faq } from "@/components/faq";
 import { FinalCta } from "@/components/final-cta";
 import { Hero } from "@/components/hero";
 import { Pricing } from "@/components/pricing";
+import { Process } from "@/components/process";
 import { Roadmap } from "@/components/roadmap";
 import { WallOfGrades } from "@/components/wall-of-grades";
+import { Stats } from "@/components/stats";
 import { Ticker } from "@/components/ticker";
 import { DEMO_DOMAIN, demoScan } from "@/lib/scan-engine";
 
@@ -41,6 +43,8 @@ export default function Page() {
       <Disciplines />
       <Roadmap />
       <WallOfGrades />
+      <Process />
+      <Stats />
       <Pricing />
       <Faq />
       <FinalCta />
