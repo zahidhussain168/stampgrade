@@ -112,7 +112,10 @@ function ScoreNumeral({
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [score, animated]);
+    // countUp belongs here: when it flips, React rewrites this span's text
+    // node back to its JSX child, and without a re-run the card was left
+    // showing 0 on any path where the face never unmounted.
+  }, [score, animated, countUp]);
 
   return (
     <span

@@ -273,6 +273,16 @@ summary,
   box-shadow: 0 0 0 4px var(--ember-soft);
 }
 
+/* Grade ambience behind the hero card: the wash and the outlined letter both
+   cross-fade to the new grade's colour. Expressed in CSS rather than JS so the
+   reduced-motion rule below is authoritative. */
+.grade-glow {
+  transition: background 600ms ease;
+}
+.grade-letter {
+  transition: -webkit-text-stroke-color 600ms ease;
+}
+
 /* Tilted example cards straighten up when you point at them. */
 .straighten {
   transition: rotate 300ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -393,5 +403,10 @@ summary,
   .reveal {
     opacity: 1;
     transform: none;
+  }
+  /* The grade ambience holds still rather than cross-fading. */
+  .grade-glow,
+  .grade-letter {
+    transition: none !important;
   }
 }

@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
+/** Ceiling for the reveal stagger. Paired with the 450ms transition in CSS. */
+const MAX_STAGGER_MS = 150;
+
 /**
  * The only scroll behaviour on the page: one 12px fade-up, once, per section.
  * Deliberately not a library and deliberately not applied to anything smaller
@@ -21,6 +24,10 @@ export function Reveal({
 }) {
   const ref = useRef<HTMLElement>(null);
   const [shown, setShown] = useState(false);
+
+  // Hard ceiling on the stagger. Section reveals are meant to be felt, not
+  // waited on; anything past this reads as the page being slow.
+  const staggerMs = Math.min(Math.max(delay, 0), MAX_STAGGER_MS);
 
   useEffect(() => {
     const node = ref.current;
@@ -51,7 +58,7 @@ export function Reveal({
     <Tag
       ref={ref as React.Ref<HTMLDivElement & HTMLLIElement>}
       className={`reveal ${shown ? "is-shown" : ""} ${className}`}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      style={staggerMs ? { transitionDelay: `${staggerMs}ms` } : undefined}
     >
       {children}
     </Tag>

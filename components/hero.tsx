@@ -27,6 +27,9 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
   const [consoleRows, setConsoleRows] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [shared, setShared] = useState(false);
+  // The domain of the run in flight. Without this the live region announced
+  // the *previous* result's domain while a new scan was underway.
+  const [scanningDomain, setScanningDomain] = useState(DEMO_DOMAIN);
   // The counter climbs from zero only for scans the visitor watched happen;
   // the server-rendered card is already showing its real number.
   const [hasScanned, setHasScanned] = useState(false);
@@ -47,6 +50,7 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
       setError(null);
       setShared(false);
       setHasScanned(true);
+      setScanningDomain(normalised.domain);
       setPhase("scanning");
       setConsoleRows(reduced ? CONSOLE_ORDER.length : 0);
 
@@ -232,12 +236,9 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
             {/* Grade-coloured wash, crossfading between grades. */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 -z-10"
+              className="grade-glow pointer-events-none absolute inset-0 -z-10"
               style={{
                 background: `radial-gradient(62% 58% at 50% 45%, color-mix(in srgb, ${color} 9%, transparent), transparent 72%)`,
-                // The grade's colour arrives with the grade. Held still for
-                // anyone who asked for less motion.
-                transition: reduced ? "none" : "background 600ms ease",
               }}
             />
 
@@ -246,12 +247,11 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
               aria-hidden="true"
               // Scaled down on small screens: a 320px stroked glyph is
               // expensive to rasterise and was winning LCP on mobile.
-              className="pointer-events-none absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[11rem] font-extrabold leading-none sm:text-[16rem] lg:text-[20rem]"
+              className="grade-letter pointer-events-none absolute left-1/2 top-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 select-none font-display text-[11rem] font-extrabold leading-none sm:text-[16rem] lg:text-[20rem]"
               style={{
                 WebkitTextStroke: `2px ${color}`,
                 color: "transparent",
                 opacity: 0.06,
-                transition: reduced ? "none" : "-webkit-text-stroke-color 600ms ease",
               }}
             >
               {grade}
@@ -302,7 +302,7 @@ export function Hero({ initialResult }: { initialResult: ScanResult }) {
           {/* Announces outcomes only — the console itself is decorative. */}
           <p aria-live="polite" className="sr-only">
             {phase === "scanning"
-              ? `Scanning ${result?.domain ?? (value || DEMO_DOMAIN)}.`
+              ? `Scanning ${scanningDomain}.`
               : revealed && result
                 ? `${result.domain} scored ${result.score} out of 100. Grade ${result.grade}. ${result.passed} checks passed, ${result.failed} failed.`
                 : ""}
