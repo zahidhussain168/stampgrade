@@ -1,0 +1,41 @@
+# StampGrade
+
+> A free website scorecard. Paste a URL and get one score out of 100 from
+> fifteen deterministic checks, a stamped grade letter (A–F), and a shareable
+> grade card.
+
+StampGrade runs fifteen pass/fail checks against a page. The engine is
+deterministic: the same page produces the same score on every run. There are no
+AI opinions and no weighting that changes over time.
+
+## The fifteen checks
+
+- HTTPS — loads over a secure connection
+- SSL_EXPIRY — certificate valid, not about to lapse
+- SECURITY_HEADERS — HSTS, CSP, X-Frame-Options present
+- TITLE_TAG — a title exists and fits a search result
+- META_DESCRIPTION — a description Google can actually show
+- HEADINGS — one clear H1, sane order
+- CANONICAL — Google is told which URL is real
+- ROBOTS_TXT — crawlers get instructions, not guesses
+- SITEMAP — an XML sitemap exists and is referenced
+- OG_TAGS — links unfurl with an image, not a gray box
+- TWITTER_CARD — shares on X render rich
+- FAVICON — a real icon, not the default globe
+- VIEWPORT — the page knows how to behave on phones
+- ALT_TEXT — images carry alt text
+- AI_READINESS — llms.txt and AI-crawler directives in place
+
+## Grading
+
+90+ is an A, 80+ a B, 65+ a C, 50+ a D, below 50 an F.
+
+## Plans
+
+- Free — unlimited scans, score, grade and share card, top three issues
+- Pro ($12/mo) — full fix-it report ranked by impact
+- Agency ($29/mo) — ten sites, white-label, watermark removed
+
+## Links
+
+- Home: https://stampgrade.com
