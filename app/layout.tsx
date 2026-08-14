@@ -1,25 +1,34 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono, Schibsted_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 
 import "./globals.css";
 
-// next/font downloads and self-hosts these at build time, so there is no
-// third-party request at runtime and no layout shift while they load.
-const schibsted = Schibsted_Grotesk({
-  subsets: ["latin"],
-  weight: ["600", "700", "800"],
+// The woff2 files live in the repo rather than being fetched from Google at
+// build time. Same self-hosting and zero layout shift as next/font/google, but
+// the build has no network dependency — a gstatic blip can't fail a deploy.
+const schibsted = localFont({
+  src: [
+    { path: "./fonts/SchibstedGrotesk-600.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/SchibstedGrotesk-700.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/SchibstedGrotesk-800.woff2", weight: "800", style: "normal" },
+  ],
   variable: "--font-schibsted",
   display: "swap",
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+const jetbrains = localFont({
+  src: [
+    { path: "./fonts/JetBrainsMono-400.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/JetBrainsMono-500.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/JetBrainsMono-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-jetbrains",
   display: "swap",
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 });
 
 const SITE = "https://stampgrade.com";
