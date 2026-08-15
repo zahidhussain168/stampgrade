@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint",
     "og": "node scripts/generate-assets.mjs",
-    "gallery": "node scripts/render-cards.mjs"
+    "gallery": "node scripts/render-cards.mjs",
+    "photos": "node scripts/optimize-photos.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",

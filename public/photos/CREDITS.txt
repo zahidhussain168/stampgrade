@@ -1,0 +1,13 @@
+STAMPGRADE IMAGE CREDITS
+CC0 and NASA public-domain items need no attribution. CC BY items must be
+credited on the site credits surface. All photos are cropped and
+color-graded for the site; that counts as "changes indicated".
+
+texture-paper-large.webp: "Crumpled black paper texture background" by Teddy - CC0 - rawpixel via Openverse
+texture-paper-band.webp: "Crumpled black paper texture" by Teddy - CC0 - rawpixel via Openverse
+smoke-black.jpg: "Incense smoke against a black sky" by Vanessa Pike-Russell - CC BY 2.0 - flickr via Openverse - cropped and color-graded
+typewriter-keyed.jpg: "Keyed" by Derek Gavey - CC BY 2.0 - flickr via Openverse - cropped and color-graded
+typewriter-underwood.jpg: "Underwood" by Derek Gavey - CC BY 2.0 - flickr via Openverse - cropped and color-graded
+light-trail.jpg: "Light Trail" by giulian.frisoni - CC BY 2.0 - flickr via Openverse - cropped and color-graded
+wax-seals-red.jpg: "Broken Red Wax Seals, Larsen Violin Strings" by Steve Snodgrass - CC BY 2.0 - flickr via Openverse - cropped and color-graded
+nasa-nile-night.jpg: "City Lights Illuminate the Nile" - NASA Earth Observatory - public domain
