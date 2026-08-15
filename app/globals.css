@@ -307,11 +307,35 @@ summary,
   -webkit-mask-image: radial-gradient(120% 90% at 50% 20%, #000 20%, transparent 78%);
 }
 
-/* Grain: a tiny repeating SVG turbulence tile, inlined as a data URI. */
+/* The table everything rests on: crumpled black paper, tiled and barely
+   there. Overlay blend lets the creases modulate the canvas rather than sit
+   on top of it, which is what stops long dark stretches reading as flat
+   pixels. image-set gives AVIF with a WebP fallback. */
 .atmosphere::after {
   content: "";
   position: absolute;
   inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: image-set(
+    url("/photos/opt/texture-paper-large.avif") type("image/avif"),
+    url("/photos/opt/texture-paper-large.webp") type("image/webp")
+  );
+  background-repeat: repeat;
+  /* Tiled under its native 1024 so the crumple reads as fine grain rather
+     than as a recognisable, repeating photograph. */
+  background-size: 900px auto;
+}
+
+/* Film grain, lifted out of the atmosphere stack and floated above the
+   content. Every photographic plate on the page sits under it, so the
+   photos and the flat surfaces share one grain rather than looking like
+   pictures pasted onto a clean page. Below the nav and the cursor. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
   opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }

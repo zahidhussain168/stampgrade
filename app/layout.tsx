@@ -128,6 +128,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         {/* Fixed grid + grain behind everything. Purely decorative. */}
         <div className="atmosphere" aria-hidden="true" />
+        <div className="grain" aria-hidden="true" />
         <Preloader />
         <SmoothScroll />
         <ScrollFX />
