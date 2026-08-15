@@ -1,6 +1,48 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
+   Display face, self-hosted at a stable path.
+
+   next/font is still used for the body and mono faces, but it would not
+   emit a preload link for a font applied through a CSS variable — so the
+   first layout was computed against fallback metrics and the hero reflowed
+   when Clash landed. Serving it from /fonts/ gives a path we can preload
+   explicitly from the document head.
+
+   font-display: optional is deliberate and belt-and-braces: the preload
+   means the font is essentially always there at first paint, and on the rare
+   cold-slow visit where it is not, optional forbids a post-paint swap
+   outright rather than leaving it to a race.
+   ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Clash Display";
+  src: url("/fonts/ClashDisplay-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: "Clash Display";
+  src: url("/fonts/ClashDisplay-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: optional;
+}
+
+/* Metric-matched fallback. These overrides are the ones next/font computed
+   for Clash against Arial; keeping them means the fallback case, rare as it
+   now is, still lays out at close to the right size. */
+@font-face {
+  font-family: "Clash Display Fallback";
+  src: local("Arial");
+  ascent-override: 79.51%;
+  descent-override: 22.33%;
+  line-gap-override: 8.04%;
+  size-adjust: 111.94%;
+}
+
+/* ------------------------------------------------------------------
    Design tokens. Nothing in a component may use a raw colour value —
    everything routes through the variables below.
    ------------------------------------------------------------------ */
@@ -88,7 +130,8 @@
   --color-aurora: var(--aurora);
   --color-aurora-soft: var(--aurora-soft);
 
-  --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Clash Display", "Clash Display Fallback", ui-sans-serif,
+    system-ui, sans-serif;
   --font-standfirst: var(--font-general), system-ui, sans-serif;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;

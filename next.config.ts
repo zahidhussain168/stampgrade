@@ -29,6 +29,19 @@ export default function config(phase: string): NextConfig {
     async headers() {
       return [
         {
+          // The display font is served from a stable, unhashed path, so it
+          // does not get next/font's automatic immutable caching. This puts
+          // it back. Treat /fonts/* as permanent: a new cut of a face ships
+          // under a new filename rather than replacing one in place.
+          source: "/fonts/:file*",
+          headers: [
+            {
+              key: "Cache-Control",
+              value: "public, max-age=31536000, immutable",
+            },
+          ],
+        },
+        {
           source: "/:path*",
           headers: [
             {

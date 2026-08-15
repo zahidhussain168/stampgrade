@@ -27,7 +27,12 @@ export const CONSOLE_ORDER: CheckId[] = [
 
 function Console({ revealed, result }: { revealed: number; result: ScanResult | null }) {
   return (
-    <div className="flex min-h-[260px] flex-col justify-start gap-1.5" aria-hidden="true">
+    // Height matched to the revealed face. The console used to be 88px
+    // shorter, so the card collapsed and re-expanded during the demo scan,
+    // dragging the grade letter and glow plate behind it with it — a steady
+    // 0.029 of CLS in the load window, and the source of the intermittent
+    // larger shift on the hero shell.
+    <div className="flex min-h-[348px] flex-col justify-start gap-1.5" aria-hidden="true">
       {CONSOLE_ORDER.slice(0, revealed).map((id) => {
         const check = result?.checks.find((c) => c.id === id);
         return (

@@ -14,25 +14,9 @@ import "./globals.css";
 // self-hosting and zero layout shift as a CDN font, but the build has no
 // network dependency — a foundry blip can't fail a deploy. Licences for all
 // three families are recorded in app/fonts/LICENSE.txt.
-const clash = localFont({
-  src: [
-    { path: "./fonts/ClashDisplay-600.woff2", weight: "600", style: "normal" },
-    { path: "./fonts/ClashDisplay-700.woff2", weight: "700", style: "normal" },
-  ],
-  variable: "--font-clash",
-  // "block" for the display face only. At 8rem any late application of Clash
-  // rewraps the headline, and "optional" left that to a race: measured across
-  // five runs CLS was bimodal, 0.015 when the font made first paint and 0.125
-  // when it did not. Next does not emit a preload link for a font applied
-  // only through a CSS variable, so the race could not be won by preloading.
-  // Block holds the headline invisible until Clash is there, then paints once.
-  // The file is same-origin and ~15KB, so the wait is short. Body and mono
-  // keep swap, where a shift is immaterial.
-  display: "block",
-  preload: true,
-  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
-});
-
+// Clash is declared by hand in globals.css and preloaded below — see the
+// comment there. Body and mono stay on next/font, where the hashed filename
+// and automatic fallback metrics are worth having and a swap costs nothing.
 const general = localFont({
   src: [
     { path: "./fonts/GeneralSans-400.woff2", weight: "400", style: "normal" },
@@ -117,10 +101,27 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${clash.variable} ${general.variable} ${jetbrains.variable}`}
-    >
+    <html lang="en" className={`${general.variable} ${jetbrains.variable}`}>
+      <head>
+        {/* crossOrigin is required even though these are same-origin: fonts
+            are always fetched in CORS mode, so a preload without it is
+            treated as a separate request and the browser downloads each face
+            twice. Both weights are used above the fold in the hero headline. */}
+        <link
+          rel="preload"
+          href="/fonts/ClashDisplay-700.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/ClashDisplay-600.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <a className="skip-link" href="#main">
           Skip to content
