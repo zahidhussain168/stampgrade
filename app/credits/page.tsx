@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { GlowPlate } from "@/components/atmosphere";
 
@@ -108,12 +109,12 @@ export default function CreditsPage() {
           ))}
         </ul>
 
-        <a
+        <Link
           href="/"
           className="pressable t-mono-label mt-14 inline-flex h-11 items-center gap-2 text-text-dim no-underline hover:text-text"
         >
           ← Back to the grader
-        </a>
+        </Link>
       </div>
     </section>
   );

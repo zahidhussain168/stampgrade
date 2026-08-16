@@ -1,5 +1,6 @@
 import { SplitText } from "./split-text";
 import { GlowPlate } from "./atmosphere";
+import { Plate } from "./plate";
 import { Reveal } from "./reveal";
 
 const STEPS = [
@@ -46,8 +47,26 @@ export function Process() {
             <li
               key={step.index}
               data-step={i}
-              className="grid grid-cols-[auto_1fr] items-baseline gap-x-6 gap-y-3 border-t border-line py-8 last:border-b md:grid-cols-[6rem_14rem_1fr_auto] md:items-center"
+              className="relative overflow-hidden grid grid-cols-[auto_1fr] items-baseline gap-x-6 gap-y-3 border-t border-line py-8 last:border-b md:grid-cols-[6rem_14rem_1fr_auto] md:items-center"
             >
+              {/* A diagonal sliver of long-exposure light inside SCAN only.
+                  It wipes left to right when the pin reaches this step; with
+                  no JavaScript, or with motion reduced, it is simply there. */}
+              {step.index === "02" && (
+                <Plate
+                  src="light-trail"
+                  width={768}
+                  height={512}
+                  className="plate-lighttrail inset-y-0 left-[18%] right-0 hidden lg:block"
+                  opacity={0.3}
+                  filter="saturate(0.5) brightness(0.75) contrast(1.15) hue-rotate(-12deg)"
+                  wash="var(--ember)"
+                  washOpacity={0.4}
+                  washBlend="color"
+                  mask="linear-gradient(105deg, transparent 12%, #000 38%, #000 62%, transparent 88%)"
+                />
+              )}
+
               <span data-step-index className="t-mono text-text-faint">
                 ({step.index})
               </span>
@@ -60,7 +79,7 @@ export function Process() {
                 {step.line}
               </p>
 
-              <span className="t-mono col-span-2 text-text-faint md:col-span-1 md:justify-self-end">
+              <span className="t-mono col-span-2 text-text-dim md:col-span-1 md:justify-self-end">
                 {step.duration}
               </span>
             </li>

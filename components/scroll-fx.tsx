@@ -46,6 +46,10 @@ export function ScrollFX() {
       if (cancelled) return;
 
       gsap.registerPlugin(ScrollTrigger);
+      // Marks that enhanced motion is actually running. Anything whose
+      // starting state would leave content hidden keys off this, so no-JS and
+      // reduced-motion visitors get the finished state instead.
+      document.documentElement.classList.add("fx");
 
       ctx = gsap.context(() => {
         const EASE = "power3.out";
@@ -107,6 +111,25 @@ export function ScrollFX() {
           if (meta.length) {
             tl.to(meta, { opacity: 1, y: 0, duration: 0.55, ease: EASE, stagger: 0.05 }, 0.08);
           }
+        });
+
+        /* ---------------------------------------- plate reveal */
+        // Fades and drifts in behind its entry, slower than the card, so the
+        // two separate in depth. Animates to the plate's own opacity rather
+        // than to 1, since each plate is graded to its own level.
+        document.querySelectorAll<HTMLElement>("[data-plate-reveal]").forEach((el) => {
+          const target = Number(getComputedStyle(el).opacity) || 1;
+          gsap.fromTo(
+            el,
+            { opacity: 0, y: 20 },
+            {
+              opacity: target,
+              y: 0,
+              duration: 0.9,
+              ease: "power2.out",
+              scrollTrigger: { trigger: el.parentElement ?? el, start: "top 80%", once: true },
+            },
+          );
         });
 
         /* ---------------------------------------- plate settle */
@@ -171,7 +194,7 @@ export function ScrollFX() {
               if (!inner || !steps.length) return;
 
               const indices = section.querySelectorAll<HTMLElement>("[data-step-index]");
-              gsap.set(steps, { opacity: 0.35 });
+              gsap.set(steps, { opacity: 0.55 });
               gsap.set(steps[0], { opacity: 1 });
               if (indices[0]) gsap.set(indices[0], { color: "var(--ember)" });
 
@@ -191,7 +214,9 @@ export function ScrollFX() {
                     Math.floor(self.progress * steps.length),
                   );
                   steps.forEach((step, i) => {
-                    gsap.to(step, { opacity: i === active ? 1 : 0.35, duration: 0.3 });
+                    // Drives the light-trail wipe inside step 02.
+                    step.classList.toggle("is-active", i === active);
+                    gsap.to(step, { opacity: i === active ? 1 : 0.55, duration: 0.3 });
                     const index = indices[i];
                     if (index) {
                       gsap.to(index, {

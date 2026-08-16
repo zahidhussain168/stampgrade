@@ -38,6 +38,7 @@ export function Plate({
   eager = false,
   parallax,
   settle = false,
+  reveal = false,
   style,
 }: {
   src: string;
@@ -58,6 +59,8 @@ export function Plate({
   parallax?: string;
   /** Scale-settles from 1.08 to 1 once, when the section enters. */
   settle?: boolean;
+  /** Fades and drifts in with its parent entry, slower than the card. */
+  reveal?: boolean;
   style?: React.CSSProperties;
 }) {
   const maskStyle = mask
@@ -69,6 +72,7 @@ export function Plate({
       aria-hidden="true"
       {...(parallax ? { "data-parallax": parallax } : {})}
       {...(settle ? { "data-settle": "" } : {})}
+      {...(reveal ? { "data-plate-reveal": "" } : {})}
       className={`pointer-events-none absolute overflow-hidden ${className}`}
       style={{ opacity, ...maskStyle, ...style }}
     >

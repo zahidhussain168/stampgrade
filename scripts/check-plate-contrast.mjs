@@ -97,9 +97,14 @@ const parse = (s) => (s.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
 
 let worst = null;
 for (const b of boxes) {
+  // Inset the sample window. An element's border box can contain its own
+  // hairline rule or padding edge, and sampling those as "backdrop" reports a
+  // failure for something that is not behind the glyphs at all.
+  const insetX = Math.min(6, Math.floor(b.w * 0.08));
+  const insetY = Math.min(6, Math.floor(b.h * 0.18));
   let maxL = 0;
-  for (let y = Math.max(0, b.y); y < Math.min(info.height, b.y + b.h); y += 2) {
-    for (let x = Math.max(0, b.x); x < Math.min(info.width, b.x + b.w); x += 2) {
+  for (let y = Math.max(0, b.y + insetY); y < Math.min(info.height, b.y + b.h - insetY); y += 2) {
+    for (let x = Math.max(0, b.x + insetX); x < Math.min(info.width, b.x + b.w - insetX); x += 2) {
       const i = (y * info.width + x) * info.channels;
       const l = lum(data[i], data[i + 1], data[i + 2]);
       if (l > maxL) maxL = l;

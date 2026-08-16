@@ -7,6 +7,7 @@ import confess from "@/public/gallery/confess.png";
 import whiteLabel from "@/public/gallery/white-label.png";
 
 import { CircuitLine, GlowPlate } from "./atmosphere";
+import { Plate } from "./plate";
 import { Reveal } from "./reveal";
 
 interface Entry {
@@ -83,7 +84,31 @@ export function WallOfGrades() {
 
         <div className="mt-14 space-y-16 lg:space-y-24">
           {ENTRIES.map((entry) => (
-            <article key={entry.id} data-clip="" className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+            <article
+              key={entry.id}
+              data-clip=""
+              className="relative grid gap-8 lg:grid-cols-12 lg:gap-12"
+            >
+              {/* Only behind the 38/F card: the smell of something burning,
+                  politely. Blurred well past its own resolution so it reads
+                  as atmosphere rather than as a photograph of smoke. */}
+              {entry.id === "confess" && (
+                <Plate
+                  src="smoke-black"
+                  width={768}
+                  height={576}
+                  className="plate-smoke bottom-[-6%] right-0 top-[46%] hidden w-[42%] lg:block"
+                  opacity={0.5}
+                  reveal
+                  blur={8}
+                  filter="saturate(0.3) brightness(0.6) contrast(1.1)"
+                  wash="var(--crimson)"
+                  washOpacity={0.1}
+                  washBlend="color"
+                  mask="radial-gradient(62% 62% at 70% 58%, #000 10%, rgba(0,0,0,0.5) 46%, transparent 78%)"
+                />
+              )}
+
               <div className="lg:col-span-8">
                 <div
                   data-clip-media=""

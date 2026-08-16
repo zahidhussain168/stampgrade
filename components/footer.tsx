@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { CircuitLine } from "./atmosphere";
 import { Wordmark } from "./wordmark";
 
@@ -109,12 +111,12 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-5">
             {/* CC BY is a condition of use — this link is not optional. */}
-            <a
+            <Link
               href="/credits"
               className="pressable t-mono inline-flex h-11 items-center text-text-faint no-underline hover:text-text"
             >
               Credits
-            </a>
+            </Link>
             <p className="t-mono m-0 text-text-faint">Deterministic. Every time.</p>
           </div>
         </div>
