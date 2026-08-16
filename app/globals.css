@@ -364,6 +364,28 @@ summary,
   background: radial-gradient(circle, var(--aurora) 0%, transparent 68%);
 }
 
+/* ------------------------------- plates ---------------------------- */
+
+/* The typewriter plate lifts when a discipline row is pointed at, so the
+   section reads as lit by attention rather than statically decorated. The
+   custom property is set inline by the Plate component, so overriding it
+   from a stylesheet needs !important — that is the whole reason the filter
+   is routed through a variable instead of being written directly. */
+.plate-typewriter img {
+  transition: filter 400ms ease;
+}
+
+#what-we-check:has(li:hover) .plate-typewriter img {
+  --plate-filter: saturate(0.34) brightness(0.30) contrast(1.04) sepia(0.2) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate-typewriter img {
+    --plate-filter: saturate(0.3) brightness(0.29) contrast(1.04) sepia(0.2) !important;
+    transition: none;
+  }
+}
+
 /* --------------------------- editorial meta ------------------------ */
 
 /* Magazine-style column headers: a mono micro-label over a hairline. */

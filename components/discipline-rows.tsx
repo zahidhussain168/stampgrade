@@ -117,7 +117,11 @@ export function DisciplineRows() {
                 {discipline.promise}
               </p>
 
-              <span className="t-mono col-span-2 text-text-faint md:col-span-1 md:justify-self-end">
+              {/* text-dim, not text-faint: this sits over the brightest part
+                  of the typewriter plate, and it is a real number rather than
+                  metadata. The faint tier could not hold 4.5:1 there once the
+                  plate lifts on hover. */}
+              <span className="t-mono col-span-2 text-text-dim md:col-span-1 md:justify-self-end">
                 {String(discipline.checks.length).padStart(2, "0")} checks
               </span>
             </div>

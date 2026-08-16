@@ -110,7 +110,7 @@ export function ScrollFX() {
         });
 
         /* -------------------------------------------- parallax */
-        const DRIFT: Record<string, number> = { glow: 10, image: 6 };
+        const DRIFT: Record<string, number> = { glow: 10, image: 6, plate: 8 };
 
         document.querySelectorAll<HTMLElement>("[data-parallax]").forEach((el) => {
           const kind = el.dataset.parallax ?? "glow";

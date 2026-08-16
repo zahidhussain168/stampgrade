@@ -107,7 +107,16 @@ export function Footer() {
           <p className="t-mono m-0 text-text-faint">
             <span aria-hidden="true">⌁</span> STAMPGRADE · BUILT FOR THE SHARE LOOP · © 2026
           </p>
-          <p className="t-mono m-0 text-text-faint">Deterministic. Every time.</p>
+          <div className="flex items-center gap-5">
+            {/* CC BY is a condition of use — this link is not optional. */}
+            <a
+              href="/credits"
+              className="pressable t-mono inline-flex h-11 items-center text-text-faint no-underline hover:text-text"
+            >
+              Credits
+            </a>
+            <p className="t-mono m-0 text-text-faint">Deterministic. Every time.</p>
+          </div>
         </div>
       </div>
     </footer>

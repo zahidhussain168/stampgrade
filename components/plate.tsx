@@ -36,6 +36,7 @@ export function Plate({
   blur = 0,
   opacity = 1,
   eager = false,
+  parallax,
   style,
 }: {
   src: string;
@@ -52,6 +53,8 @@ export function Plate({
   blur?: number;
   opacity?: number;
   eager?: boolean;
+  /** ScrollFX parallax kind, e.g. "plate". */
+  parallax?: string;
   style?: React.CSSProperties;
 }) {
   const maskStyle = mask
@@ -61,6 +64,7 @@ export function Plate({
   return (
     <div
       aria-hidden="true"
+      {...(parallax ? { "data-parallax": parallax } : {})}
       className={`pointer-events-none absolute overflow-hidden ${className}`}
       style={{ opacity, ...maskStyle, ...style }}
     >
@@ -76,7 +80,15 @@ export function Plate({
           decoding="async"
           fetchPriority="low"
           className={`h-full w-full object-cover ${imgClassName}`}
-          style={{ filter: blur ? `${filter} blur(${blur}px)` : filter }}
+          // Routed through a custom property rather than set directly, so a
+          // stylesheet can retune the grade on hover or under reduced motion
+          // without fighting inline-style specificity.
+          style={
+            {
+              "--plate-filter": blur ? `${filter} blur(${blur}px)` : filter,
+              filter: "var(--plate-filter)",
+            } as React.CSSProperties
+          }
         />
       </picture>
 
