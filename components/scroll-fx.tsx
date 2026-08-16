@@ -109,6 +109,24 @@ export function ScrollFX() {
           }
         });
 
+        /* ---------------------------------------- plate settle */
+        // A slow scale-down as the section arrives, once. Set here rather
+        // than in CSS so a no-JS visitor gets the settled frame, not a
+        // permanently over-scaled one.
+        document.querySelectorAll<HTMLElement>("[data-settle]").forEach((el) => {
+          const target = el.querySelector("img") ?? el;
+          gsap.fromTo(
+            target,
+            { scale: 1.08 },
+            {
+              scale: 1,
+              duration: 2,
+              ease: "power2.out",
+              scrollTrigger: { trigger: el, start: "top 85%", once: true },
+            },
+          );
+        });
+
         /* -------------------------------------------- parallax */
         const DRIFT: Record<string, number> = { glow: 10, image: 6, plate: 8 };
 

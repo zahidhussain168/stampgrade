@@ -37,6 +37,7 @@ export function Plate({
   opacity = 1,
   eager = false,
   parallax,
+  settle = false,
   style,
 }: {
   src: string;
@@ -55,6 +56,8 @@ export function Plate({
   eager?: boolean;
   /** ScrollFX parallax kind, e.g. "plate". */
   parallax?: string;
+  /** Scale-settles from 1.08 to 1 once, when the section enters. */
+  settle?: boolean;
   style?: React.CSSProperties;
 }) {
   const maskStyle = mask
@@ -65,6 +68,7 @@ export function Plate({
     <div
       aria-hidden="true"
       {...(parallax ? { "data-parallax": parallax } : {})}
+      {...(settle ? { "data-settle": "" } : {})}
       className={`pointer-events-none absolute overflow-hidden ${className}`}
       style={{ opacity, ...maskStyle, ...style }}
     >

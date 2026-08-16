@@ -1,4 +1,5 @@
 import { GlowPlate } from "./atmosphere";
+import { Plate } from "./plate";
 
 /**
  * Product constants, not traffic numbers.
@@ -16,8 +17,36 @@ const STATS = [
 
 export function Stats() {
   return (
-    <section className="section border-t border-line">
+    <section className="stats-band section relative border-t border-line">
       <GlowPlate tone="warm" placement="top-left" size={42} opacity={0.08} />
+
+      {/* City lights on black: the web at night, graded. Cropped off the
+          NASA frame's map labels. It settles from 1.08 to 1.0 as the section
+          enters, once, then drifts a whisper while the counters run. */}
+      <Plate
+        src="nile-band"
+        width={720}
+        height={290}
+        parallax="plate"
+        className="plate-nile inset-0 h-full w-full"
+        opacity={0.5}
+        filter="saturate(0.25) brightness(0.52) contrast(1.12)"
+        wash="linear-gradient(100deg, var(--aurora), transparent 55%, var(--ember))"
+        washOpacity={0.3}
+        washBlend="soft-light"
+        settle
+        mask="radial-gradient(120% 130% at 50% 50%, #000 25%, rgba(0,0,0,0.55) 55%, transparent 88%)"
+      />
+
+      {/* Darkened strip so the counters never sit on the bright river. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-1/2 h-[62%] -translate-y-1/2"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent, rgba(8,9,12,0.82) 22%, rgba(8,9,12,0.86) 78%, transparent)",
+        }}
+      />
 
       <div className="shell">
         <ul
